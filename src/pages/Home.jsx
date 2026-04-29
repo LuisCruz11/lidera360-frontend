@@ -34,30 +34,37 @@ function Home() {
       </section>
 
       <section className="features">
-        <div className="feature">
-                <section className="info">
-                    <h2>¿Qué hacemos?</h2>
-                    <p>
-                    Ofrecemos talleres de liderazgo y coaching diseñados para el crecimiento personal,
-                    ayudando a las personas a descubrir su potencial y transformar su vida.
-                    </p>
-                </section>
+
+        <div className="feature left">
+          <div className="feature-text">
+            <h2>¿Qué hacemos?</h2>
+            <p>
+              Ofrecemos talleres de liderazgo y coaching diseñados para el crecimiento personal,
+              ayudando a las personas a descubrir su potencial y transformar su vida.
+            </p>
+          </div>
+          <img src={Talleres} className="feature-img" />
         </div>
 
-        <div className="feature">
-          <h3>Trabajo en equipo</h3>
-          <p>Desarrolla habilidades para liderar grupos</p>
+        <div className="feature right">
+          <img src={Talleres} className="feature-img" />
+          <div className="feature-text">
+            <h2>Trabajo en equipo</h2>
+            <p>Desarrolla habilidades para liderar grupos</p>
+          </div>
         </div>
 
-        <div className="feature">
-            <section className="about">
-                <h2>Nosotros</h2>
-                <p>
-                Somos una escuela de liderazgo enfocada en el crecimiento humano.
-                Contamos con coaches certificados y una comunidad en constante expansión.
-                </p>
-            </section>
+        <div className="feature left">
+          <div className="feature-text">
+            <h2>Nosotros</h2>
+            <p>
+              Somos una escuela de liderazgo enfocada en el crecimiento humano.
+              Contamos con coaches certificados y una comunidad en constante expansión.
+            </p>
+          </div>
+          <img src={Talleres} className="feature-img" />
         </div>
+
       </section>
 
     </div>

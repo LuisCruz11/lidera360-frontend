@@ -1,133 +1,44 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-.home {
-  background: #0f0f1a;
-  color: white;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 10;
-}
-
-.logo {
-  height: 45px;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.btn-login {
-  background: transparent;
-  border: 1px solid white;
-  color: white;
-  padding: 8px 16px;
-  cursor: pointer;
-}
-
-.btn-register {
-  background: #C23B8A;
-  border: none;
-  padding: 8px 16px;
-  color: white;
-  cursor: pointer;
-}
-
-.hero {
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-  margin-top: 70px;
-}
-
-.collage {
-  display: flex;
-  width: 300%;
-  animation: scroll 20s linear infinite;
-}
-
-.collage img {
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
-  filter: brightness(0.4);
-}
-
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-66%); }
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.hero-overlay h1 {
-  font-size: 60px;
-}
-
-.btn-primary {
-  margin-top: 20px;
-  background: linear-gradient(45deg, #5A2A83, #3FA7D6);
-  border: none;
-  padding: 12px 20px;
-  color: white;
-  cursor: pointer;
-}
-
-.info {
-  text-align: center;
-  padding: 60px;
-}
-
 .features {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding: 60px;
-  align-items: stretch;
+  gap: 80px;
+  padding: 80px 10%;
 }
 
 .feature {
-  background: #1a1a2e;
-  padding: 30px;
-  border-radius: 12px;
-  width: 350px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.feature.left {
+  flex-direction: row;
+}
+
+.feature.right {
+  flex-direction: row-reverse;
+}
+
+.feature-text {
+  width: 50%;
+}
+
+.feature-text h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.feature-text p {
+  opacity: 0.8;
+}
+
+.feature-img {
+  width: 400px;
+  border-radius: 15px;
   transition: 0.3s;
 }
 
-.feature:hover {
+.feature-img:hover {
   transform: scale(1.05);
-}
-
-.feature:nth-child(1) {
-  margin-right: auto;
-}
-
-.feature:nth-child(2) {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.feature:nth-child(3) {
-  margin-left: auto;
 }
