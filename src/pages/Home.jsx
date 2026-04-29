@@ -23,7 +23,7 @@ function Home() {
         </div>
 
         <div className="hero-overlay">
-          <h1>Transforma tu vida</h1>
+          <h1>Crear Conciencia - CC4</h1>
           <p>
             🔥 Transforma tu Vida 💪 <br />
             🙌 Logra tus metas 💡 <br />

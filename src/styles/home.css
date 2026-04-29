@@ -100,20 +100,33 @@ body {
 
 .features {
   display: flex;
-  justify-content: center;
-  gap: 30px;
+  flex-direction: column;
+  gap: 40px;
   padding: 60px;
+  align-items: center;
 }
 
 .feature {
   background: #1a1a2e;
   padding: 30px;
-  border-radius: 10px;
-  width: 250px;
+  border-radius: 12px;
+  width: 350px;
   text-align: center;
+  transition: 0.3s;
 }
 
-.about {
-  text-align: center;
-  padding: 60px;
+.feature:hover {
+  transform: scale(1.05);
+}
+
+.feature:nth-child(1) {
+  align-self: flex-start;
+}
+
+.feature:nth-child(2) {
+  align-self: center;
+}
+
+.feature:nth-child(3) {
+  align-self: flex-end;
 }
