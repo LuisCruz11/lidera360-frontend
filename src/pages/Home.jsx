@@ -24,12 +24,11 @@ function Home() {
 
         <div className="hero-overlay">
           <h1>Crear Conciencia - CC4</h1>
-          <p>
+          <h2>
             🔥 Transforma tu Vida 💪 <br />
             🙌 Logra tus metas 💡 <br />
             😎 Vive como tú elijas vivir ❤️
-          </p>
-          <button className="btn-primary">Comenzar ahora</button>
+          </h2>
         </div>
       </section>
 

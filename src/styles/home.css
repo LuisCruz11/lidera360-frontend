@@ -90,6 +90,11 @@ body {
   margin-bottom: 20px;
 }
 
+.hero-overlay h2 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
 .btn-primary {
   background: linear-gradient(45deg, #6a11cb, #2575fc);
   border: none;
