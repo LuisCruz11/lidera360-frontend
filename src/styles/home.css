@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
 .home {
   background: #0a0a1a;
   color: white;
@@ -52,15 +57,25 @@
 
 .collage {
   position: absolute;
-  width: 100%;
+  width: 200%;
   height: 100%;
   display: flex;
+  animation: mover 20s linear infinite;
 }
 
 .collage img {
   width: 33.3%;
   object-fit: cover;
   opacity: 0.4;
+}
+
+@keyframes mover {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .hero-overlay {
@@ -87,44 +102,27 @@
 
 .features {
   display: flex;
-  gap: 80px;
-  padding: 80px 10%;
+  justify-content: center;
+  gap: 30px;
+  padding: 80px 5%;
+  flex-wrap: wrap;
 }
 
-.feature {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-}
-
-.feature.left {
-  flex-direction: row;
-}
-
-.feature.right {
-  flex-direction: row-reverse;
-}
-
-.feature-text {
-  width: 50%;
-}
-
-.feature-text h2 {
-  font-size: 28px;
-  margin-bottom: 10px;
-}
-
-.feature-text p {
-  opacity: 0.8;
-}
-
-.feature-img {
-  width: 400px;
+.card {
+  background: #1a1a2e;
+  padding: 20px;
   border-radius: 15px;
+  width: 300px;
+  text-align: center;
   transition: 0.3s;
 }
 
-.feature-img:hover {
-  transform: scale(1.05);
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.card:hover {
+  transform: translateY(-10px);
 }
