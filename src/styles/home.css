@@ -12,64 +12,46 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
+  padding: 15px 40px;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   position: fixed;
+  top: 0;
   width: 100%;
+  box-sizing: border-box;
   z-index: 10;
 }
 
 .logo {
-  height: 50px;
+  height: 45px;
 }
 
-.menu {
+.nav-buttons {
   display: flex;
-  list-style: none;
-  gap: 40px;
-}
-
-.menu li {
-  position: relative;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: absolute;
-  top: 30px;
-  background: #1a1a2e;
-  padding: 15px;
-  border-radius: 8px;
-  width: 200px;
-}
-
-.dropdown p {
-  margin: 5px 0;
-}
-
-.nav-buttons button {
-  margin-left: 10px;
+  gap: 10px;
 }
 
 .btn-login {
   background: transparent;
   border: 1px solid white;
   color: white;
-  padding: 8px 15px;
+  padding: 8px 16px;
+  cursor: pointer;
 }
 
 .btn-register {
   background: #C23B8A;
   border: none;
-  padding: 8px 15px;
+  padding: 8px 16px;
   color: white;
+  cursor: pointer;
 }
 
 .hero {
   height: 100vh;
   position: relative;
   overflow: hidden;
+  margin-top: 70px;
 }
 
 .collage {
@@ -108,4 +90,30 @@ body {
   border: none;
   padding: 12px 20px;
   color: white;
+  cursor: pointer;
+}
+
+.info {
+  text-align: center;
+  padding: 60px;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 60px;
+}
+
+.feature {
+  background: #1a1a2e;
+  padding: 30px;
+  border-radius: 10px;
+  width: 250px;
+  text-align: center;
+}
+
+.about {
+  text-align: center;
+  padding: 60px;
 }
