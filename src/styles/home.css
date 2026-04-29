@@ -16,6 +16,7 @@
   background: rgba(10, 10, 26, 0.6);
   backdrop-filter: blur(10px);
   z-index: 10;
+  box-sizing: border-box;
 }
 
 .logo {
@@ -86,7 +87,6 @@
 
 .features {
   display: flex;
-  flex-direction: column;
   gap: 80px;
   padding: 80px 10%;
 }
