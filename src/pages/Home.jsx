@@ -33,18 +33,15 @@ function Home() {
         </div>
       </section>
 
-      <section className="info">
-        <h2>¿Qué hacemos?</h2>
-        <p>
-          Ofrecemos talleres de liderazgo y coaching diseñados para el crecimiento personal,
-          ayudando a las personas a descubrir su potencial y transformar su vida.
-        </p>
-      </section>
-
       <section className="features">
         <div className="feature">
-          <h3>Transformación personal</h3>
-          <p>Cambia tu mentalidad y rompe tus límites</p>
+                <section className="info">
+                    <h2>¿Qué hacemos?</h2>
+                    <p>
+                    Ofrecemos talleres de liderazgo y coaching diseñados para el crecimiento personal,
+                    ayudando a las personas a descubrir su potencial y transformar su vida.
+                    </p>
+                </section>
         </div>
 
         <div className="feature">
@@ -53,17 +50,14 @@ function Home() {
         </div>
 
         <div className="feature">
-          <h3>Desarrollo emocional</h3>
-          <p>Fortalece tu inteligencia emocional</p>
+            <section className="about">
+                <h2>Nosotros</h2>
+                <p>
+                Somos una escuela de liderazgo enfocada en el crecimiento humano.
+                Contamos con coaches certificados y una comunidad en constante expansión.
+                </p>
+            </section>
         </div>
-      </section>
-
-      <section className="about">
-        <h2>Nosotros</h2>
-        <p>
-          Somos una escuela de liderazgo enfocada en el crecimiento humano.
-          Contamos con coaches certificados y una comunidad en constante expansión.
-        </p>
       </section>
 
     </div>
