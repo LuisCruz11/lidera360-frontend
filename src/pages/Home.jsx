@@ -1,7 +1,7 @@
 import "../styles/home.css";
 
-import Talleres from "../assets/images/Talleres.jpg";
-import logo from "../assets/images/logo.jpg";
+import Talleres from "../assets/images/Talleres.png";
+import logo from "../assets/images/logo.png";
 
 function Home() {
   return (
