@@ -42,13 +42,13 @@ function Home() {
               Ofrecemos talleres de liderazgo y coaching diseñados para el crecimiento personal,
               ayudando a las personas a descubrir su potencial y transformar su vida.
             </p>
+            <img src={Talleres} className="feature-img" />
           </div>
-          <img src={Talleres} className="feature-img" />
         </div>
 
         <div className="feature right">
-          <img src={Talleres} className="feature-img" />
           <div className="feature-text">
+            <img src={Talleres} className="feature-img" />
             <h2>Trabajo en equipo</h2>
             <p>Desarrolla habilidades para liderar grupos</p>
           </div>
@@ -61,8 +61,8 @@ function Home() {
               Somos una escuela de liderazgo enfocada en el crecimiento humano.
               Contamos con coaches certificados y una comunidad en constante expansión.
             </p>
+            <img src={Talleres} className="feature-img" />
           </div>
-          <img src={Talleres} className="feature-img" />
         </div>
 
       </section>
