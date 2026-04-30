@@ -69,9 +69,6 @@ function RegistroCliente({ onVolverInicio }) {
       </section>
 
       <form className="registro-card" onSubmit={manejarEnvio}>
-        <button className="registro-back" type="button" onClick={onVolverInicio}>
-          Volver
-        </button>
 
         <h2>Crear Cuenta</h2>
 
