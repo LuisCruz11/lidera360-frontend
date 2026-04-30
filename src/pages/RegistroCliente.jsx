@@ -15,6 +15,12 @@ const datosIniciales = {
   password: "",
 };
 
+const valoresSexo = {
+  Masculino: "M",
+  Femenino: "F",
+  Otro: "Otro",
+};
+
 function RegistroCliente({ onVolverInicio }) {
   const [formulario, setFormulario] = useState(datosIniciales);
   const [mensaje, setMensaje] = useState("");
@@ -38,6 +44,7 @@ function RegistroCliente({ onVolverInicio }) {
 
     const datosRegistro = {
       ...formulario,
+      sexo: valoresSexo[formulario.sexo],
       edad: Number(formulario.edad),
     };
 
@@ -111,8 +118,9 @@ function RegistroCliente({ onVolverInicio }) {
 
         <select name="sexo" value={formulario.sexo} onChange={manejarCambio} required>
           <option value="">Sexo</option>
-          <option value="M">Masculino</option>
-          <option value="F">Femenino</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Otro">Otro</option>
         </select>
 
         <input
@@ -139,7 +147,7 @@ function RegistroCliente({ onVolverInicio }) {
           placeholder="Contrasena"
           value={formulario.password}
           onChange={manejarCambio}
-          minLength="6"
+          minLength="8"
           required
         />
 
