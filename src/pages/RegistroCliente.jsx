@@ -155,6 +155,17 @@ function RegistroCliente({ onVolverInicio }) {
           {cargando ? "Registrando..." : "Registrarse"}
         </button>
 
+        <button className="registro-secondary-button" type="button" onClick={onVolverInicio}>
+          Ir a la página principal
+        </button>
+
+        <p className="registro-login-text">
+          ¿Ya tienes cuenta?{' '}
+          <button className="registro-login-link" type="button" onClick={onVolverInicio}>
+            Inicia sesión aquí
+          </button>
+        </p>
+
         {mensaje && <p className="registro-message success">{mensaje}</p>}
         {error && <p className="registro-message error">{error}</p>}
       </form>

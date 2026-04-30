@@ -105,9 +105,45 @@
   cursor: pointer;
 }
 
+.registro-secondary-button {
+  grid-column: 1 / -1;
+  min-height: 44px;
+  border: 0;
+  border-radius: 7px;
+  background: #f3edff;
+  color: #5d3399;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.registro-secondary-button:hover,
+.registro-login-link:hover {
+  opacity: 0.9;
+}
+
 .registro-button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.registro-login-text {
+  grid-column: 1 / -1;
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: #4c3b6f;
+}
+
+.registro-login-link {
+  border: 0;
+  background: none;
+  color: #7b35d8;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
 }
 
 .registro-message {
