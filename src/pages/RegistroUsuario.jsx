@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { registrarClienteUsuario } from "../api/usuariosApi";
-import "../styles/registroCliente.css";
+import "../styles/registroUsuario.css";
 import logo from "../assets/images/logo.png";
 
 const datosIniciales = {
@@ -21,7 +21,7 @@ const valoresSexo = {
   Otro: "Otro",
 };
 
-function RegistroCliente({ onVolverInicio }) {
+function RegistroUsuario({ onVolverInicio }) {
   const [formulario, setFormulario] = useState(datosIniciales);
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -170,4 +170,4 @@ function RegistroCliente({ onVolverInicio }) {
   );
 }
 
-export default RegistroCliente;
+export default RegistroUsuario;

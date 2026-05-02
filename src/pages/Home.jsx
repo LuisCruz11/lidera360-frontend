@@ -2,7 +2,7 @@ import "../styles/home.css";
 import logo from "../assets/images/logo.png";
 import Talleres from "../assets/images/Talleres.png";
 
-function Home({ onRegistroClick }) {
+function Home({ onRegistroClick, onLoginClick }) {
   return (
     <div className="home">
 
@@ -10,7 +10,7 @@ function Home({ onRegistroClick }) {
         <img src={logo} className="logo" />
 
         <div className="nav-buttons">
-          <button className="btn-login">Iniciar sesión</button>
+          <button className="btn-login" onClick={onLoginClick}>Iniciar sesión</button>
           <button className="btn-register" onClick={onRegistroClick}>Registrarse</button>
         </div>
       </nav>

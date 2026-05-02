@@ -1,0 +1,166 @@
+* {
+  box-sizing: border-box;
+}
+
+.login-page {
+  min-height: 100vh;
+  margin: 0;
+  padding: 48px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f7f0fb;
+  color: #2f1748;
+  font-family: Arial, sans-serif;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-logo {
+  width: 78px;
+  height: 62px;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.login-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: #25113f;
+}
+
+.login-header p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #9a75ad;
+}
+
+.login-card {
+  width: min(100%, 400px);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #eadff1;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(47, 23, 72, 0.14);
+}
+
+.login-card h2 {
+  margin: 0 0 4px;
+  font-size: 21px;
+  color: #321a4f;
+}
+
+.login-back {
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #7b35d8;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-card input {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid #e4d5eb;
+  border-radius: 7px;
+  background: #fbf6ff;
+  color: #321a4f;
+  font-size: 14px;
+  outline: none;
+}
+
+.login-card input:focus {
+  border-color: #8a2ff3;
+  box-shadow: 0 0 0 3px rgba(138, 47, 243, 0.14);
+}
+
+.login-button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 7px;
+  background: #862cf2;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.login-secondary-button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 7px;
+  background: #f3edff;
+  color: #5d3399;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.login-secondary-button:hover,
+.login-register-link:hover {
+  opacity: 0.9;
+}
+
+.login-register-text {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: #4c3b6f;
+}
+
+.login-register-link {
+  border: 0;
+  background: none;
+  color: #7b35d8;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.login-message {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.login-message.success {
+  color: #276749;
+}
+
+.login-message.error {
+  color: #b83232;
+}
+
+@media (max-width: 560px) {
+  .login-page {
+    padding: 28px 14px;
+    justify-content: flex-start;
+  }
+
+  .login-card {
+    padding: 22px;
+  }
+}
