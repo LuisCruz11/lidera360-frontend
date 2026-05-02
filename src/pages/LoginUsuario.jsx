@@ -56,9 +56,6 @@ function LoginUsuario({ onVolverInicio, onLoginExito, onRegistroClick }) {
       </section>
 
       <form className="login-card" onSubmit={manejarEnvio}>
-        <button className="login-back" type="button" onClick={onVolverInicio}>
-          Volver
-        </button>
 
         <h2>Iniciar Sesión</h2>
 
