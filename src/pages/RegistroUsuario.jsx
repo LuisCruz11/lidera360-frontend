@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registrarClienteUsuario } from "../api/usuariosApi";
+import { registrarUsuario } from "../api/usuariosApi";
 import "../styles/registroUsuario.css";
 import logo from "../assets/images/logo.png";
 
@@ -21,7 +21,7 @@ const valoresSexo = {
   Otro: "Otro",
 };
 
-function RegistroUsuario({ onVolverInicio }) {
+function RegistroUsuario({ onVolverInicio, onLoginClick }) {
   const [formulario, setFormulario] = useState(datosIniciales);
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -158,7 +158,7 @@ function RegistroUsuario({ onVolverInicio }) {
 
         <p className="registro-login-text">
           ¿Ya tienes cuenta?{' '}
-          <button className="registro-login-link" type="button" onClick={onVolverInicio}>
+          <button className="registro-login-link" type="button" onClick={onLoginClick}>
             Inicia sesión aquí
           </button>
         </p>

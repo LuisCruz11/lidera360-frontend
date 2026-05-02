@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-export const registrarClienteUsuario = (data) => {
+export const registrarUsuario = (data) => {
   return axiosClient.post("/usuarios/registro", data);
 };
 
