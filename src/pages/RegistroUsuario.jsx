@@ -49,7 +49,7 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
     };
 
     try {
-      const respuesta = await registrarClienteUsuario(datosRegistro);
+      const respuesta = await registrarUsuario(datosRegistro);
       setMensaje(respuesta.data.mensaje);
       setFormulario(datosIniciales);
     } catch (err) {
