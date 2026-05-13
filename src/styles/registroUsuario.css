@@ -89,18 +89,15 @@
 
 .field-wrapper {
   position: relative;
-}
-
-.field-wrapper.active {
-  padding-bottom: 130px;
+  overflow: visible;
 }
 
 .input-helper {
   position: absolute;
   left: 0;
-  right: 0;
-  top: calc(100% + 10px);
+  top: calc(100% + 8px);
   z-index: 2;
+  width: min(100%, 280px);
   background: #f8f4ff;
   border: 1px solid #d8c9f2;
   border-radius: 10px;
