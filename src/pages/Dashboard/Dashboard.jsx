@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../../styles/dashboard.css";
 import logo from "../../assets/images/logo.png";
 import PanelCoordinador from "./paneles/PanelCoordinador";
@@ -15,10 +14,11 @@ const paneles = {
 
 function Dashboard({ usuario, onLogout }) {
   const Panel = paneles[usuario.id_rol] || PanelCliente;
+  const esCliente = usuario.id_rol === 4;
 
   return (
-    <div className="dashboard">
-      <nav className="dashboard-navbar">
+    <div className={`dashboard ${esCliente ? "dashboard-cliente" : ""}`}>
+      {!esCliente && <nav className="dashboard-navbar">
         <div className="navbar-left">
           <img src={logo} alt="Lidera360" className="navbar-logo" />
           <h1>Lidera360</h1>
@@ -29,9 +29,9 @@ function Dashboard({ usuario, onLogout }) {
             Cerrar sesión
           </button>
         </div>
-      </nav>
-      <main className="dashboard-main">
-        <Panel usuario={usuario} />
+      </nav>}
+      <main className={`dashboard-main ${esCliente ? "dashboard-main-cliente" : ""}`}>
+        <Panel usuario={usuario} onLogout={onLogout} />
       </main>
     </div>
   );
