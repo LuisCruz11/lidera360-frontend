@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "../../../styles/dashboard.css";
 import logo from "../../../assets/images/logo.png";
-import axiosClient from "../../../api/axiosClient";
+import { inscribirClienteTaller, obtenerPanelCliente } from "../../../api/usuariosApi";
 
 const seccionesCliente = [
   { id: "talleres", etiqueta: "Mis Talleres", icono: "book" },
@@ -107,6 +107,14 @@ function formatearFecha(fecha, tipo = "corta") {
   return (tipo === "larga" ? formateadorLargo : formateadorCorto).format(fechaObjeto).replace(".", "");
 }
 
+function formatearRangoFechas(fechaInicio, fechaFin) {
+  if (fechaInicio && fechaFin) {
+    return `${formatearFecha(fechaInicio)} - ${formatearFecha(fechaFin)}`;
+  }
+
+  return formatearFecha(fechaInicio || fechaFin);
+}
+
 function obtenerNivel(categoria = "") {
   const texto = quitarAcentos(categoria);
   if (!texto) return "";
@@ -127,6 +135,7 @@ function obtenerEtiquetaEstado(estado = "") {
   const grupo = obtenerGrupoEstado(estado);
   if (grupo === "aprobado") return "Aprobado";
   if (grupo === "no-aprobado") return "No Aprobado";
+  if (quitarAcentos(estado).includes("inici")) return "En Progreso";
   return estado;
 }
 
@@ -136,40 +145,21 @@ function obtenerIniciales(nombre = "") {
   return partes.slice(0, 2).map((parte) => parte[0]).join("").toUpperCase();
 }
 
-function crearMapa(lista, campo) {
-  return new Map((Array.isArray(lista) ? lista : []).map((item) => [String(item[campo]), item]));
-}
-
-function obtenerCoach(taller, relaciones, personal) {
-  const relacion = relaciones.find(
-    (item) =>
-      String(item.id_taller) === String(taller.id_taller) &&
-      quitarAcentos(item.rol_en_taller || "").includes("coach")
-  );
-  const persona = relacion ? personal.get(String(relacion.cedula_personal)) : null;
-  if (!persona) return "";
-  return `${persona.nombres || ""} ${persona.apellidos || ""}`.trim();
-}
-
-function unirTallerConDatos(taller, inscripcion, mapas) {
-  const categoria = mapas.tipos.get(String(taller.id_tipo_taller))?.nombre || "";
-  const estado =
-    mapas.estados.get(String(inscripcion?.id_estado))?.nombre ||
-    mapas.estados.get(String(taller.id_estado))?.nombre ||
-    inscripcion?.estado ||
-    "";
-
+function normalizarTaller(taller) {
+  const categoria = taller.categoria || taller.tipo_taller || "";
+  const estado = obtenerEtiquetaEstado(taller.estado || taller.estado_taller || "");
   return {
     id_taller: taller.id_taller,
-    nombre: taller.nombre || "Taller",
+    id_inscripcion: taller.id_inscripcion,
+    nombre: taller.nombre || "",
     categoria,
     fecha_inicio: taller.fecha_inicio,
     fecha_fin: taller.fecha_fin,
-    coach: obtenerCoach(taller, mapas.relaciones, mapas.personal),
-    estado: obtenerEtiquetaEstado(estado),
-    fecha_inscripcion: inscripcion?.fecha_inscripcion || null,
+    coach: taller.coach || "",
+    estado,
+    fecha_inscripcion: taller.fecha_inscripcion || null,
     id_tipo_taller: taller.id_tipo_taller,
-    nivel: obtenerNivel(categoria),
+    nivel: taller.nivel || obtenerNivel(categoria),
   };
 }
 
@@ -205,89 +195,61 @@ function construirCeldasCalendario(fechaBase, talleres) {
 function PanelCliente({ usuario, onLogout }) {
   const [seccionActiva, setSeccionActiva] = useState("talleres");
   const [cliente, setCliente] = useState(null);
+  const [progreso, setProgreso] = useState(null);
   const [talleresInscritos, setTalleresInscritos] = useState([]);
   const [talleresDisponibles, setTalleresDisponibles] = useState([]);
   const [desplazamientoMes, setDesplazamientoMes] = useState(0);
+  const [inscribiendoId, setInscribiendoId] = useState(null);
+
+  const cargarPanelCliente = useCallback(async (cedulaCliente, estaActivo = () => true) => {
+    try {
+      const respuesta = await obtenerPanelCliente(cedulaCliente);
+      if (!estaActivo()) return;
+
+      const panel = respuesta.data || {};
+      setCliente(panel.perfil || null);
+      setProgreso(panel.progreso || null);
+      setTalleresInscritos((panel.historial_inscripciones || []).map(normalizarTaller));
+      setTalleresDisponibles((panel.talleres_disponibles || []).map(normalizarTaller));
+    } catch {
+      if (!estaActivo()) return;
+      setCliente(null);
+      setProgreso(null);
+      setTalleresInscritos([]);
+      setTalleresDisponibles([]);
+    }
+  }, []);
 
   useEffect(() => {
     const cedulaCliente = usuario.cedula_cliente;
     if (!cedulaCliente) return undefined;
 
     let componenteActivo = true;
-
-    const cargarDatosCliente = async () => {
-      try {
-        const respuestas = await Promise.allSettled([
-          axiosClient.get(`/clientes/${cedulaCliente}`),
-          axiosClient.get("/talleres/"),
-          axiosClient.get("/inscripciones/"),
-          axiosClient.get("/progresos-clientes/"),
-          axiosClient.get("/tipos-taller/"),
-          axiosClient.get("/estados/"),
-          axiosClient.get("/taller-personal/"),
-          axiosClient.get("/personal/"),
-        ]);
-
-        if (!componenteActivo) return;
-
-        const datos = respuestas.map((respuesta) =>
-          respuesta.status === "fulfilled" ? respuesta.value.data : null
-        );
-        const [clienteApi, talleresApi, inscripcionesApi, progresosApi, tiposApi, estadosApi, relacionesApi, personalApi] =
-          datos;
-
-        if (clienteApi && !clienteApi.mensaje) {
-          setCliente(clienteApi);
-        }
-
-        const talleres = Array.isArray(talleresApi) ? talleresApi : [];
-        const inscripciones = (Array.isArray(inscripcionesApi) ? inscripcionesApi : []).filter(
-          (inscripcion) => String(inscripcion.cliente_cedula) === String(cedulaCliente)
-        );
-        const progresos = (Array.isArray(progresosApi) ? progresosApi : []).filter(
-          (progreso) => String(progreso.cliente_cedula) === String(cedulaCliente)
-        );
-        const mapas = {
-          tipos: new Map((Array.isArray(tiposApi) ? tiposApi : []).map((tipo) => [String(tipo.id_tipo_taller), tipo])),
-          estados: new Map((Array.isArray(estadosApi) ? estadosApi : []).map((estado) => [String(estado.id_estado), estado])),
-          relaciones: Array.isArray(relacionesApi) ? relacionesApi : [],
-          personal: crearMapa(personalApi, "cedula"),
-        };
-        const talleresPorId = crearMapa(talleres, "id_taller");
-        const inscritosIds = new Set(inscripciones.map((inscripcion) => String(inscripcion.id_taller)));
-
-        const historial = inscripciones
-          .map((inscripcion) => {
-            const taller = talleresPorId.get(String(inscripcion.id_taller));
-            return taller ? unirTallerConDatos(taller, inscripcion, mapas) : null;
-          })
-          .filter(Boolean);
-
-        const tiposPermitidos = progresos.map((progreso) => String(progreso.id_tipo_taller));
-        const disponibles = talleres
-          .filter((taller) => !inscritosIds.has(String(taller.id_taller)))
-          .filter((taller) => tiposPermitidos.length === 0 || tiposPermitidos.includes(String(taller.id_tipo_taller)))
-          .map((taller) => unirTallerConDatos(taller, null, mapas));
-
-        if (historial.length > 0) {
-          setTalleresInscritos(historial);
-        }
-
-        if (disponibles.length > 0) {
-          setTalleresDisponibles(disponibles);
-        }
-      } catch {
-        setTalleresInscritos([]);
-        setTalleresDisponibles([]);
+    queueMicrotask(() => {
+      if (componenteActivo) {
+        cargarPanelCliente(cedulaCliente, () => componenteActivo);
       }
-    };
-
-    cargarDatosCliente();
+    });
 
     return () => {
       componenteActivo = false;
     };
-  }, [usuario.cedula_cliente]);
+  }, [cargarPanelCliente, usuario.cedula_cliente]);
+
+  const manejarInscripcion = async (idTaller) => {
+    const cedulaCliente = usuario.cedula_cliente;
+    if (!cedulaCliente || !idTaller || inscribiendoId) return;
+
+    setInscribiendoId(idTaller);
+    try {
+      await inscribirClienteTaller(cedulaCliente, idTaller);
+      await cargarPanelCliente(cedulaCliente);
+    } catch {
+      // Si el backend rechaza la inscripción, se conserva la información actual.
+    } finally {
+      setInscribiendoId(null);
+    }
+  };
 
   const nombreCliente = useMemo(() => {
     const nombreCompleto = `${cliente?.nombres || ""} ${cliente?.apellidos || ""}`.trim();
@@ -319,7 +281,7 @@ function PanelCliente({ usuario, onLogout }) {
     [fechaBaseCalendario, talleresDisponibles]
   );
 
-  const nivelActual = talleresDisponibles[0]?.categoria || "";
+  const nivelActual = progreso?.tipo_taller || talleresDisponibles[0]?.categoria || "";
 
   const renderEncabezado = (titulo, subtitulo) => (
     <header className="cliente-panel-header">
@@ -344,7 +306,7 @@ function PanelCliente({ usuario, onLogout }) {
         {(taller.fecha_inicio || taller.fecha_fin) && (
           <p>
             <Icono tipo="calendar" />
-            {formatearFecha(taller.fecha_inicio)} - {formatearFecha(taller.fecha_fin)}
+            {formatearRangoFechas(taller.fecha_inicio, taller.fecha_fin)}
           </p>
         )}
         {taller.coach && (
@@ -372,7 +334,7 @@ function PanelCliente({ usuario, onLogout }) {
     <>
       {renderEncabezado("Mis Talleres", "Talleres en los que estás inscrito")}
       <div className="cliente-talleres-grid">
-        {(talleresEnCurso.length > 0 ? talleresEnCurso : talleresInscritos).map(renderTarjetaTaller)}
+        {talleresEnCurso.map(renderTarjetaTaller)}
       </div>
     </>
   );
@@ -446,9 +408,16 @@ function PanelCliente({ usuario, onLogout }) {
             <div className={`cliente-calendar-day ${celda.dia ? "" : "cliente-calendar-empty"}`} key={celda.clave}>
               {celda.dia && <span className="cliente-calendar-number">{celda.dia}</span>}
               {celda.eventos.slice(0, 2).map((evento) => (
-                <span className={`cliente-calendar-event cliente-nivel-${evento.nivel}`} key={`${celda.clave}-${evento.id_taller}`}>
+                <button
+                  type="button"
+                  className={`cliente-calendar-event ${evento.nivel ? `cliente-nivel-${evento.nivel}` : ""}`}
+                  key={`${celda.clave}-${evento.id_taller}`}
+                  aria-label={`Inscribirse a ${evento.nombre}`}
+                  disabled={inscribiendoId === evento.id_taller}
+                  onClick={() => manejarInscripcion(evento.id_taller)}
+                >
                   {evento.nombre}
-                </span>
+                </button>
               ))}
               {celda.eventos.length > 2 && <span className="cliente-calendar-more">+ {celda.eventos.length - 2} más</span>}
             </div>
@@ -465,7 +434,7 @@ function PanelCliente({ usuario, onLogout }) {
 
   const renderPerfil = () => {
     const estadoUsuario =
-      usuario.activo === true ? "Activo" : usuario.activo === false ? "Inactivo" : "";
+      cliente?.estado || (usuario.activo === true ? "Activo" : usuario.activo === false ? "Inactivo" : "");
     const camposPerfil = [
       { etiqueta: "Cédula", valor: cliente?.cedula || usuario.cedula_cliente },
       { etiqueta: "Correo", valor: cliente?.correo },
