@@ -146,6 +146,51 @@
   padding: 0;
 }
 
+.registro-note {
+  grid-column: 1 / -1;
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #5d3399;
+}
+
+.registro-note.error {
+  color: #b83232;
+}
+
+.password-requirements {
+  grid-column: 1 / -1;
+  padding: 14px 16px;
+  background: #fbf6ff;
+  border: 1px solid #e4d5eb;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.password-requirements p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #4c3b6f;
+}
+
+.password-requirements ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.password-requirements li {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #4c3b6f;
+}
+
+.requirement-met {
+  color: #276749;
+}
+
+.requirement-unmet {
+  color: #b83232;
+}
+
 .registro-message {
   grid-column: 1 / -1;
   margin: 0;

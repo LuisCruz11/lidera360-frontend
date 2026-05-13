@@ -27,8 +27,21 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
 
+  const soloLetrasRegex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
+  const soloNumerosRegex = /^\d+$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+
   const manejarCambio = (event) => {
-    const { name, value } = event.target;
+    const { name, value: valueOriginal } = event.target;
+    let value = valueOriginal;
+
+    if (name === "cedula" || name === "telefono") {
+      value = valueOriginal.replace(/\D/g, "");
+    }
+
+    if (name === "nombres" || name === "apellidos") {
+      value = valueOriginal.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]/g, "");
+    }
 
     setFormulario((datosActuales) => ({
       ...datosActuales,
@@ -36,11 +49,52 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
     }));
   };
 
+  const validarPassword = (password) => passwordRegex.test(password);
+
+  const validarFormulario = () => {
+    if (!formulario.cedula || !soloNumerosRegex.test(formulario.cedula)) {
+      return "La cédula debe contener solo números.";
+    }
+
+    if (!formulario.nombres || !soloLetrasRegex.test(formulario.nombres)) {
+      return "El nombre solo puede contener letras y espacios.";
+    }
+
+    if (!formulario.apellidos || !soloLetrasRegex.test(formulario.apellidos)) {
+      return "El apellido solo puede contener letras y espacios.";
+    }
+
+    if (!formulario.telefono || !soloNumerosRegex.test(formulario.telefono)) {
+      return "El teléfono debe contener solo números.";
+    }
+
+    if (!validarPassword(formulario.password)) {
+      return "La contraseña debe tener mínimo 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.";
+    }
+
+    return "";
+  };
+
+  const requisitosPassword = {
+    minLength: formulario.password.length >= 8,
+    hasUpper: /[A-Z]/.test(formulario.password),
+    hasLower: /[a-z]/.test(formulario.password),
+    hasNumber: /\d/.test(formulario.password),
+    hasSymbol: /[@$!%?&]/.test(formulario.password),
+  };
+
   const manejarEnvio = async (event) => {
     event.preventDefault();
     setMensaje("");
     setError("");
     setCargando(true);
+
+    const errorValidacion = validarFormulario();
+    if (errorValidacion) {
+      setError(errorValidacion);
+      setCargando(false);
+      return;
+    }
 
     const datosRegistro = {
       ...formulario,
@@ -79,6 +133,11 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
           onChange={manejarCambio}
           required
         />
+        {formulario.cedula && (
+          <p className={`registro-note ${soloNumerosRegex.test(formulario.cedula) ? "" : "error"}`}>
+            Cedula: solo números, sin espacios ni símbolos.
+          </p>
+        )}
 
         <input
           name="nombres"
@@ -87,6 +146,11 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
           onChange={manejarCambio}
           required
         />
+        {formulario.nombres && (
+          <p className={`registro-note ${soloLetrasRegex.test(formulario.nombres) ? "" : "error"}`}>
+            Nombres: solo letras y espacios.
+          </p>
+        )}
 
         <input
           name="apellidos"
@@ -95,6 +159,11 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
           onChange={manejarCambio}
           required
         />
+        {formulario.apellidos && (
+          <p className={`registro-note ${soloLetrasRegex.test(formulario.apellidos) ? "" : "error"}`}>
+            Apellidos: solo letras y espacios.
+          </p>
+        )}
 
         <input
           name="correo"
@@ -112,6 +181,11 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
           onChange={manejarCambio}
           required
         />
+        {formulario.telefono && (
+          <p className={`registro-note ${soloNumerosRegex.test(formulario.telefono) ? "" : "error"}`}>
+            Teléfono: solo números, sin espacios ni símbolos.
+          </p>
+        )}
 
         <select name="sexo" value={formulario.sexo} onChange={manejarCambio} required>
           <option value="">Sexo</option>
@@ -147,6 +221,26 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
           minLength="8"
           required
         />
+        <div className="password-requirements">
+          <p>Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.</p>
+          <ul>
+            <li className={requisitosPassword.minLength ? "requirement-met" : "requirement-unmet"}>
+              {requisitosPassword.minLength ? "✓" : "○"} 8 caracteres o más
+            </li>
+            <li className={requisitosPassword.hasUpper ? "requirement-met" : "requirement-unmet"}>
+              {requisitosPassword.hasUpper ? "✓" : "○"} Una letra mayúscula
+            </li>
+            <li className={requisitosPassword.hasLower ? "requirement-met" : "requirement-unmet"}>
+              {requisitosPassword.hasLower ? "✓" : "○"} Una letra minúscula
+            </li>
+            <li className={requisitosPassword.hasNumber ? "requirement-met" : "requirement-unmet"}>
+              {requisitosPassword.hasNumber ? "✓" : "○"} Un número
+            </li>
+            <li className={requisitosPassword.hasSymbol ? "requirement-met" : "requirement-unmet"}>
+              {requisitosPassword.hasSymbol ? "✓" : "○"} Un carácter especial (@$!%?&)
+            </li>
+          </ul>
+        </div>
 
         <button className="registro-button" type="submit" disabled={cargando}>
           {cargando ? "Registrando..." : "Registrarse"}
