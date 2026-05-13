@@ -81,7 +81,7 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
     hasUpper: /[A-Z]/.test(formulario.password),
     hasLower: /[a-z]/.test(formulario.password),
     hasNumber: /\d/.test(formulario.password),
-    hasSymbol: /[@$!%?&]/.test(formulario.password),
+    hasSymbol: /[@$!%?&#]/.test(formulario.password),
   };
 
   const manejarEnvio = async (event) => {
