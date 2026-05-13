@@ -26,6 +26,7 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
+  const [campoActivo, setCampoActivo] = useState("");
 
   const soloLetrasRegex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
   const soloNumerosRegex = /^\d+$/;
@@ -126,44 +127,56 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
 
         <h2>Crear Cuenta</h2>
 
-        <input
-          name="cedula"
-          placeholder="Cedula"
-          value={formulario.cedula}
-          onChange={manejarCambio}
-          required
-        />
-        {formulario.cedula && (
-          <p className={`registro-note ${soloNumerosRegex.test(formulario.cedula) ? "" : "error"}`}>
-            Cedula: solo números, sin espacios ni símbolos.
-          </p>
-        )}
+        <div className={`field-wrapper ${campoActivo === "cedula" ? "active" : ""}`}>
+          <input
+            name="cedula"
+            placeholder="Cedula"
+            value={formulario.cedula}
+            onChange={manejarCambio}
+            onFocus={() => setCampoActivo("cedula")}
+            onBlur={() => setCampoActivo("")}
+            required
+          />
+          {campoActivo === "cedula" && (
+            <div className="input-helper">
+              <p>Cédula: solo números, sin espacios ni símbolos.</p>
+            </div>
+          )}
+        </div>
 
-        <input
-          name="nombres"
-          placeholder="Nombres"
-          value={formulario.nombres}
-          onChange={manejarCambio}
-          required
-        />
-        {formulario.nombres && (
-          <p className={`registro-note ${soloLetrasRegex.test(formulario.nombres) ? "" : "error"}`}>
-            Nombres: solo letras y espacios.
-          </p>
-        )}
+        <div className={`field-wrapper ${campoActivo === "nombres" ? "active" : ""}`}>
+          <input
+            name="nombres"
+            placeholder="Nombres"
+            value={formulario.nombres}
+            onChange={manejarCambio}
+            onFocus={() => setCampoActivo("nombres")}
+            onBlur={() => setCampoActivo("")}
+            required
+          />
+          {campoActivo === "nombres" && (
+            <div className="input-helper">
+              <p>Nombres: solo letras y espacios.</p>
+            </div>
+          )}
+        </div>
 
-        <input
-          name="apellidos"
-          placeholder="Apellidos"
-          value={formulario.apellidos}
-          onChange={manejarCambio}
-          required
-        />
-        {formulario.apellidos && (
-          <p className={`registro-note ${soloLetrasRegex.test(formulario.apellidos) ? "" : "error"}`}>
-            Apellidos: solo letras y espacios.
-          </p>
-        )}
+        <div className={`field-wrapper ${campoActivo === "apellidos" ? "active" : ""}`}>
+          <input
+            name="apellidos"
+            placeholder="Apellidos"
+            value={formulario.apellidos}
+            onChange={manejarCambio}
+            onFocus={() => setCampoActivo("apellidos")}
+            onBlur={() => setCampoActivo("")}
+            required
+          />
+          {campoActivo === "apellidos" && (
+            <div className="input-helper">
+              <p>Apellidos: solo letras y espacios.</p>
+            </div>
+          )}
+        </div>
 
         <input
           name="correo"
@@ -174,18 +187,22 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
           required
         />
 
-        <input
-          name="telefono"
-          placeholder="Telefono"
-          value={formulario.telefono}
-          onChange={manejarCambio}
-          required
-        />
-        {formulario.telefono && (
-          <p className={`registro-note ${soloNumerosRegex.test(formulario.telefono) ? "" : "error"}`}>
-            Teléfono: solo números, sin espacios ni símbolos.
-          </p>
-        )}
+        <div className={`field-wrapper ${campoActivo === "telefono" ? "active" : ""}`}>
+          <input
+            name="telefono"
+            placeholder="Telefono"
+            value={formulario.telefono}
+            onChange={manejarCambio}
+            onFocus={() => setCampoActivo("telefono")}
+            onBlur={() => setCampoActivo("")}
+            required
+          />
+          {campoActivo === "telefono" && (
+            <div className="input-helper">
+              <p>Teléfono: solo números, sin espacios ni símbolos.</p>
+            </div>
+          )}
+        </div>
 
         <select name="sexo" value={formulario.sexo} onChange={manejarCambio} required>
           <option value="">Sexo</option>
@@ -212,34 +229,40 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
           required
         />
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Contrasena"
-          value={formulario.password}
-          onChange={manejarCambio}
-          minLength="8"
-          required
-        />
-        <div className="password-requirements">
-          <p>Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.</p>
-          <ul>
-            <li className={requisitosPassword.minLength ? "requirement-met" : "requirement-unmet"}>
-              {requisitosPassword.minLength ? "✓" : "○"} 8 caracteres o más
-            </li>
-            <li className={requisitosPassword.hasUpper ? "requirement-met" : "requirement-unmet"}>
-              {requisitosPassword.hasUpper ? "✓" : "○"} Una letra mayúscula
-            </li>
-            <li className={requisitosPassword.hasLower ? "requirement-met" : "requirement-unmet"}>
-              {requisitosPassword.hasLower ? "✓" : "○"} Una letra minúscula
-            </li>
-            <li className={requisitosPassword.hasNumber ? "requirement-met" : "requirement-unmet"}>
-              {requisitosPassword.hasNumber ? "✓" : "○"} Un número
-            </li>
-            <li className={requisitosPassword.hasSymbol ? "requirement-met" : "requirement-unmet"}>
-              {requisitosPassword.hasSymbol ? "✓" : "○"} Un carácter especial (@$!%?&)
-            </li>
-          </ul>
+        <div className={`field-wrapper ${campoActivo === "password" ? "active" : ""}`}>
+          <input
+            name="password"
+            type="password"
+            placeholder="Contrasena"
+            value={formulario.password}
+            onChange={manejarCambio}
+            onFocus={() => setCampoActivo("password")}
+            onBlur={() => setCampoActivo("")}
+            minLength="8"
+            required
+          />
+          {campoActivo === "password" && (
+            <div className="input-helper password-requirements">
+              <p>Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.</p>
+              <ul>
+                <li className={requisitosPassword.minLength ? "requirement-met" : "requirement-unmet"}>
+                  {requisitosPassword.minLength ? "✓" : "○"} 8 caracteres o más
+                </li>
+                <li className={requisitosPassword.hasUpper ? "requirement-met" : "requirement-unmet"}>
+                  {requisitosPassword.hasUpper ? "✓" : "○"} Una letra mayúscula
+                </li>
+                <li className={requisitosPassword.hasLower ? "requirement-met" : "requirement-unmet"}>
+                  {requisitosPassword.hasLower ? "✓" : "○"} Una letra minúscula
+                </li>
+                <li className={requisitosPassword.hasNumber ? "requirement-met" : "requirement-unmet"}>
+                  {requisitosPassword.hasNumber ? "✓" : "○"} Un número
+                </li>
+                <li className={requisitosPassword.hasSymbol ? "requirement-met" : "requirement-unmet"}>
+                  {requisitosPassword.hasSymbol ? "✓" : "○"} Un carácter especial (@$!%?&)
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
 
         <button className="registro-button" type="submit" disabled={cargando}>
