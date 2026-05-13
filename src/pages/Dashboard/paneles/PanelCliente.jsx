@@ -379,7 +379,7 @@ function PanelCliente({ usuario, onLogout }) {
 
   const renderInscripciones = () => (
     <>
-      {renderEncabezado("Mis Inscripciones", "Historial de tus inscripciones a talleres")}
+      {renderEncabezado("Mis Inscripciones", "Historial de talleres a los que te has inscrito")}
       {talleresInscritos.length > 0 && (
         <>
           <section className="cliente-stats-grid" aria-label="Resumen de inscripciones">
@@ -424,7 +424,7 @@ function PanelCliente({ usuario, onLogout }) {
     <>
       {renderEncabezado(
         "Calendario de Talleres",
-        nivelActual ? `Visualiza los talleres programados para tu nivel: ${nivelActual}` : "Visualiza los talleres programados"
+        nivelActual ? `Visualiza los talleres programados para tu nivel: ${nivelActual}` : "Visualiza los talleres programados a los que te puedes inscribir"
       )}
       <section className="cliente-calendar-card">
         <div className="cliente-calendar-toolbar">
