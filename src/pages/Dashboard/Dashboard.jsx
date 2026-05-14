@@ -1,6 +1,6 @@
 import "../../styles/dashboard.css";
 import logo from "../../assets/images/logo.png";
-// Los siguientes imports resuelven automáticamente a los index.jsx dentro de las carpetas
+
 import PanelCoordinador from "./paneles/PanelCoordinador";
 import PanelCoach from "./paneles/PanelCoach";
 import PanelPersonalCapacitado from "./paneles/PanelPersonalCapacitado";
