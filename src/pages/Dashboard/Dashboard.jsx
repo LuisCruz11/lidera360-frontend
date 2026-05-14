@@ -1,5 +1,6 @@
 import "../../styles/dashboard.css";
 import logo from "../../assets/images/logo.png";
+// Los siguientes imports resuelven automáticamente a los index.jsx dentro de las carpetas
 import PanelCoordinador from "./paneles/PanelCoordinador";
 import PanelCoach from "./paneles/PanelCoach";
 import PanelPersonalCapacitado from "./paneles/PanelPersonalCapacitado";
@@ -15,10 +16,11 @@ const paneles = {
 function Dashboard({ usuario, onLogout }) {
   const Panel = paneles[usuario.id_rol] || PanelCliente;
   const esCliente = usuario.id_rol === 4;
+  const esCoordinador = usuario.id_rol === 1;
 
   return (
-    <div className={`dashboard ${esCliente ? "dashboard-cliente" : ""}`}>
-      {!esCliente && <nav className="dashboard-navbar">
+    <div className={`dashboard ${esCliente ? "dashboard-cliente" : ""} ${esCoordinador ? "dashboard-coordinador" : ""}`}>
+      {!esCliente && !esCoordinador && <nav className="dashboard-navbar">
         <div className="navbar-left">
           <img src={logo} alt="Lidera360" className="navbar-logo" />
           <h1>Lidera360</h1>
@@ -30,7 +32,7 @@ function Dashboard({ usuario, onLogout }) {
           </button>
         </div>
       </nav>}
-      <main className={`dashboard-main ${esCliente ? "dashboard-main-cliente" : ""}`}>
+      <main className={`dashboard-main ${esCliente ? "dashboard-main-cliente" : ""} ${esCoordinador ? "dashboard-main-coordinador" : ""}`}>
         <Panel usuario={usuario} onLogout={onLogout} />
       </main>
     </div>
