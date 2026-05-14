@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import logo from "../../../../assets/images/logo.png";
-import { Icono } from "../utils/Icono";
-import { MisTalleres } from "./MisTalleres";
-import { Inscripciones } from "./Inscripciones";
-import { Calendario } from "./Calendario";
-import { Perfil } from "./Perfil";
+import { Icono } from "./utils/Icono";
+import { MisTalleres } from "./components/MisTalleres";
+import { Inscripciones } from "./components/Inscripciones";
+import { Calendario } from "./components/Calendario";
+import { Perfil } from "./components/Perfil";
 import {
   obtenerGrupoEstado,
   obtenerIniciales,
   formatearFecha,
   construirCeldasCalendario,
   seccionesCliente,
-} from "../utils/helpers";
-import { useClienteData } from "../hooks/useClienteData";
+} from "./utils/helpers";
+import { useClienteData } from "./hooks/useClienteData";
 
 function PanelCliente({ usuario, onLogout }) {
   const [seccionActiva, setSeccionActiva] = useState("talleres");

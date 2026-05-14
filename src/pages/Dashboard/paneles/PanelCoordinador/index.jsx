@@ -1,16 +1,16 @@
 import { useCallback, useMemo, useState } from "react";
 import logo from "../../../../assets/images/logo.png";
-import { IconoAdmin } from "../utils/IconoAdmin";
-import { Panel } from "./Panel";
-import { Clientes } from "./Clientes";
-import { Talleres } from "./Talleres";
-import { Inscripciones } from "./Inscripciones";
-import { Personal } from "./Personal";
-import { Progreso } from "./Progreso";
-import { Auditoria } from "./Auditoria";
-import { Calendario } from "./Calendario";
-import { crearMapa, normalizar, formulariosIniciales, seccionesAdmin, hoyISO } from "../utils/helpers";
-import { useCoordinadorData } from "../hooks/useCoordinadorData";
+import { IconoAdmin } from "./utils/IconoAdmin";
+import { Panel } from "./components/Panel";
+import { Clientes } from "./components/Clientes";
+import { Talleres } from "./components/Talleres";
+import { Inscripciones } from "./components/Inscripciones";
+import { Personal } from "./components/Personal";
+import { Progreso } from "./components/Progreso";
+import { Auditoria } from "./components/Auditoria";
+import { Calendario } from "./components/Calendario";
+import { crearMapa, normalizar, formulariosIniciales, seccionesAdmin, hoyISO } from "./utils/helpers";
+import { useCoordinadorData } from "./hooks/useCoordinadorData";
 
 function PanelCoordinador({ usuario, onLogout }) {
   const [seccionActiva, setSeccionActiva] = useState("panel");
