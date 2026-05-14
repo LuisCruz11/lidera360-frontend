@@ -47,7 +47,13 @@ export function MisTalleres({ talleresEnCurso, renderEncabezado }) {
     <>
       {renderEncabezado("Mis Talleres", "Talleres en los que estás inscrito")}
       <div className="cliente-talleres-grid">
-        {talleresEnCurso.map(renderTarjetaTaller)}
+        {talleresEnCurso.length > 0 ? (
+          talleresEnCurso.map(renderTarjetaTaller)
+        ) : (
+          <p style={{ gridColumn: "1 / -1", textAlign: "center", padding: "2rem" }}>
+            No tienes talleres en curso. Consulta el calendario para inscribirte.
+          </p>
+        )}
       </div>
     </>
   );

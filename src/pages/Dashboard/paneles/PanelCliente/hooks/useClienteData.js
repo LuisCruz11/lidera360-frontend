@@ -23,8 +23,9 @@ export function useClienteData(usuario) {
         ...taller,
         categoria: taller.categoria || taller.tipo_taller || "",
       })));
-    } catch {
+    } catch (error) {
       if (!estaActivo()) return;
+      console.error("Error cargando panel cliente:", error);
       setCliente(null);
       setProgreso(null);
       setTalleresInscritos([]);
@@ -34,11 +35,13 @@ export function useClienteData(usuario) {
 
   useEffect(() => {
     const cedulaCliente = usuario.cedula_cliente;
+    console.log("useClienteData - cedulaCliente:", cedulaCliente);
     if (!cedulaCliente) return undefined;
 
     let componenteActivo = true;
     queueMicrotask(() => {
       if (componenteActivo) {
+        console.log("Cargando panel para cliente:", cedulaCliente);
         cargarPanelCliente(cedulaCliente, () => componenteActivo);
       }
     });
@@ -55,7 +58,8 @@ export function useClienteData(usuario) {
     try {
       await inscribirClienteTaller(cedulaCliente, idTaller);
       await cargarPanelCliente(cedulaCliente);
-    } catch {
+    } catch (error) {
+      console.error("Error inscribiendo en taller:", error);
     }
   };
 

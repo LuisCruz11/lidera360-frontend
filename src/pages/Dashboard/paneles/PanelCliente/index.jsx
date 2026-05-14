@@ -18,9 +18,17 @@ function PanelCliente({ usuario, onLogout }) {
   const [seccionActiva, setSeccionActiva] = useState("talleres");
   const [desplazamientoMes, setDesplazamientoMes] = useState(0);
   const [inscribiendoId, setInscribiendoId] = useState(null);
+  const [cargando, setCargando] = useState(true);
 
   const { cliente, progreso, talleresInscritos, talleresDisponibles, cargarPanelCliente, manejarInscripcion } =
     useClienteData(usuario);
+
+  // Detectar cuando los datos se han cargado
+  useEffect(() => {
+    if (cliente !== null || (talleresInscritos && talleresInscritos.length >= 0)) {
+      setCargando(false);
+    }
+  }, [cliente, talleresInscritos]);
 
   const manejarInscripcionConCarga = async (idTaller) => {
     setInscribiendoId(idTaller);
@@ -78,6 +86,14 @@ function PanelCliente({ usuario, onLogout }) {
   );
 
   const renderContenido = () => {
+    if (cargando) {
+      return (
+        <div style={{ padding: "2rem", textAlign: "center" }}>
+          <p>Cargando información...</p>
+        </div>
+      );
+    }
+
     if (seccionActiva === "inscripciones") {
       return (
         <Inscripciones
