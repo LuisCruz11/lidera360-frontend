@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { inscribirClienteTaller, obtenerPanelCliente } from "../../../../api/usuariosApi";
+import { inscribirClienteTaller, obtenerPanelCliente } from "../../../../../api/usuariosApi";
 
 export function useClienteData(usuario) {
   const [cliente, setCliente] = useState(null);

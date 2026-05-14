@@ -19,7 +19,7 @@ import {
   obtenerTallerPersonal,
   obtenerTiposTaller,
   obtenerUsuarios,
-} from "../../../../api/adminApi";
+} from "../../../../../api/adminApi";
 
 export function useCoordinadorData() {
   const [clientes, setClientes] = useState([]);
