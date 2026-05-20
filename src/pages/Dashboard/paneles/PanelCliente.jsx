@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import "../../../styles/dashboard.css";
 import "../../../styles/cliente.css";
 import logo from "../../../assets/images/logo.png";
 import { inscribirClienteTaller, obtenerPanelCliente } from "../../../api/usuariosApi";
