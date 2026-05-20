@@ -7,17 +7,17 @@ import PanelPersonalCapacitado from "./paneles/PanelPersonalCapacitado";
 import PanelCliente from "./paneles/PanelCliente";
 
 const paneles = {
-  1: PanelCoordinador,
   2: PanelCoach,
   3: PanelPersonalCapacitado,
   4: PanelCliente,
+  5: PanelCoordinador
 };
 
 function Dashboard({ usuario, onLogout }) {
   const rolUsuario = Number(usuario.id_rol);
   const Panel = paneles[rolUsuario];
   const esCliente = rolUsuario === 4;
-  const esCoordinador = rolUsuario === 1;
+  const esCoordinador = rolUsuario === 5;
 
   return (
     <div className={`dashboard ${esCliente ? "dashboard-cliente" : ""} ${esCoordinador ? "dashboard-coordinador" : ""}`}>
