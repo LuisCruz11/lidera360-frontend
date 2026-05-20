@@ -11,13 +11,13 @@ const paneles = {
   2: PanelCoach,
   3: PanelPersonalCapacitado,
   4: PanelCliente,
-  5: PanelCoordinador,
 };
 
 function Dashboard({ usuario, onLogout }) {
-  const Panel = paneles[usuario.id_rol] || PanelCliente;
-  const esCliente = usuario.id_rol === 4;
-  const esCoordinador = usuario.id_rol === 5;
+  const rolUsuario = Number(usuario.id_rol);
+  const Panel = paneles[rolUsuario];
+  const esCliente = rolUsuario === 4;
+  const esCoordinador = rolUsuario === 1;
 
   return (
     <div className={`dashboard ${esCliente ? "dashboard-cliente" : ""} ${esCoordinador ? "dashboard-coordinador" : ""}`}>
