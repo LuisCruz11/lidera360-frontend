@@ -1,4 +1,6 @@
 import "../../styles/dashboard.css";
+import "../../styles/cliente.css";
+import "../../styles/admin.css";
 import logo from "../../assets/images/logo.png";
 
 import PanelCoordinador from "./paneles/PanelCoordinador";
