@@ -648,6 +648,16 @@
   border-radius: 50%;
 }
 
+.dashboard-coordinador {
+  background: #fbf5ff;
+}
+
+.dashboard-main-coordinador {
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 0;
+}
+
 .cliente-perfil-card {
   padding: 22px;
   border: 1px solid #eadff1;
