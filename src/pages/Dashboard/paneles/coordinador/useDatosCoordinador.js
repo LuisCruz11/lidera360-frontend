@@ -145,11 +145,6 @@ export function useDatosCoordinador() {
     [tipoPorId]
   );
 
-  const obtenerRolPorNombre = useCallback(
-    (nombre) => roles.find((rol) => normalizar(rol.nombre).includes(normalizar(nombre))),
-    [roles]
-  );
-
   const obtenerEstadoPorNombre = useCallback(
     (nombre) => estados.find((estado) => normalizar(estado.nombre).includes(normalizar(nombre))),
     [estados]
@@ -177,11 +172,11 @@ export function useDatosCoordinador() {
     (idTaller, rolBuscado) => {
       const asignaciones = asignacionesPorTaller.get(String(idTaller)) || [];
       return asignaciones
-        .filter((asignacion) => normalizar(obtenerRol(asignacion.id_rol)).includes(normalizar(rolBuscado)))
+        .filter((asignacion) => normalizar(asignacion.rol_en_taller).includes(normalizar(rolBuscado)))
         .map((asignacion) => nombreCompleto(personalPorCedula.get(String(asignacion.cedula_personal)) || asignacion))
         .join(", ");
     },
-    [asignacionesPorTaller, obtenerRol, personalPorCedula]
+    [asignacionesPorTaller, personalPorCedula]
   );
 
   const clientesFiltrados = useMemo(() => {
@@ -337,8 +332,8 @@ export function useDatosCoordinador() {
       setIdEnEdicion(registro.cedula);
     } else if (tipo === "taller") {
       const asignaciones = asignacionesPorTaller.get(String(registro.id_taller)) || [];
-      const coach = asignaciones.find((asignacion) => normalizar(obtenerRol(asignacion.id_rol)).includes("coach"));
-      const coordinador = asignaciones.find((asignacion) => normalizar(obtenerRol(asignacion.id_rol)).includes("coordinador"));
+      const coach = asignaciones.find((asignacion) => normalizar(asignacion.rol_en_taller).includes("coach"));
+      const coordinador = asignaciones.find((asignacion) => normalizar(asignacion.rol_en_taller).includes("coordinador"));
       setFormularios((actuales) => ({
         ...actuales,
         taller: {
@@ -440,17 +435,9 @@ export function useDatosCoordinador() {
   const guardarTaller = (event) => {
     event.preventDefault();
     const data = formularios.taller;
-    const rolCoach = obtenerRolPorNombre("coach");
-    const rolCoordinador = obtenerRolPorNombre("coordinador");
     const asignaciones = [
-      data.coach && {
-        cedula_personal: data.coach,
-        id_rol: rolCoach?.id_rol || personalPorCedula.get(String(data.coach))?.id_rol,
-      },
-      data.coordinador && {
-        cedula_personal: data.coordinador,
-        id_rol: rolCoordinador?.id_rol || personalPorCedula.get(String(data.coordinador))?.id_rol,
-      },
+      data.coach && { cedula_personal: data.coach, rol_en_taller: "Coach" },
+      data.coordinador && { cedula_personal: data.coordinador, rol_en_taller: "Coordinador" },
     ].filter(Boolean);
 
     const payload = {
