@@ -31,9 +31,9 @@ function LoginUsuario({ onVolverInicio, onLoginExito, onRegistroClick }) {
 
     try {
       const respuesta = await loginUsuario(formulario);
-      const usuario = respuesta.data;
+      const { token, usuario } = respuesta.data;
       localStorage.setItem("usuario", JSON.stringify(usuario));
-      localStorage.setItem("token", usuario.id_usuario);
+      localStorage.setItem("token", token);
       setMensaje("Iniciando sesión...");
       setFormulario(datosIniciales);
       setTimeout(() => {
