@@ -49,6 +49,15 @@ export function useDatosCoordinador() {
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (!mensaje && !error) return;
+    const timeoutId = setTimeout(() => {
+      setMensaje("");
+      setError("");
+    }, 4000);
+    return () => clearTimeout(timeoutId);
+  }, [mensaje, error]);
+
   const cargarDatos = useCallback(async () => {
     setCargando(true);
     setError("");
