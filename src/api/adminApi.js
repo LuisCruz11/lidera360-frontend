@@ -12,6 +12,7 @@ export const eliminarTaller = (idTaller) => axiosClient.delete(`/talleres/${idTa
 
 export const obtenerInscripciones = () => axiosClient.get("/inscripciones/");
 export const crearInscripcion = (data) => axiosClient.post("/inscripciones/", data);
+export const actualizarInscripcion = (idInscripcion, data) => axiosClient.put(`/inscripciones/${idInscripcion}`, data);
 export const eliminarInscripcion = (idInscripcion) => axiosClient.delete(`/inscripciones/${idInscripcion}`);
 
 export const obtenerPersonal = () => axiosClient.get("/personal/");
