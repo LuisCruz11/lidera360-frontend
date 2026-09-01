@@ -509,10 +509,11 @@ export function useDatosCoordinador() {
   };
 
   const eliminarRegistro = async (tipo, id) => {
-    const mensajeConfirmacion =
-      tipo === "cliente"
-        ? "¿Deseas eliminar este cliente? También se eliminarán sus inscripciones, su progreso registrado y su cuenta de usuario."
-        : "¿Deseas eliminar este registro?";
+    const mensajesConfirmacion = {
+      cliente: "¿Deseas eliminar este cliente? También se eliminarán sus inscripciones, su progreso registrado y su cuenta de usuario.",
+      personal: "¿Deseas eliminar este personal? También se eliminarán sus asignaciones a talleres y su cuenta de usuario.",
+    };
+    const mensajeConfirmacion = mensajesConfirmacion[tipo] || "¿Deseas eliminar este registro?";
     const confirmado = window.confirm(mensajeConfirmacion);
     if (!confirmado) return;
 
