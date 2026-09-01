@@ -22,6 +22,8 @@ export const formulariosIniciales = {
     edad: "",
     id_estado: "",
     id_tipo_taller: "",
+    username: "",
+    password: "",
   },
   taller: {
     nombre: "",

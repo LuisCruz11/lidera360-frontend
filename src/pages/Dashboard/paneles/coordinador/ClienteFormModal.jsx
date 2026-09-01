@@ -66,7 +66,27 @@ function ClienteFormModal({ datos }) {
             ))}
           </select>
         </label>
+        {!editando && (
+          <>
+            <label>
+              Usuario
+              <input name="username" value={valores.username} onChange={(event) => cambiarFormulario("cliente", event)} required />
+            </label>
+            <label>
+              Contraseña
+              <input
+                name="password"
+                type="password"
+                minLength="8"
+                value={valores.password}
+                onChange={(event) => cambiarFormulario("cliente", event)}
+                required
+              />
+            </label>
+          </>
+        )}
       </div>
+      {editando && <p className="admin-form-hint">El usuario y la contraseña no se modifican desde este formulario.</p>}
       <div className="admin-form-actions">
         <button type="button" onClick={cerrarModal}>Cancelar</button>
         <button type="submit" className="admin-primary-button" disabled={guardando}>

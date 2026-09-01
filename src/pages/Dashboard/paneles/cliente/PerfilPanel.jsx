@@ -1,3 +1,4 @@
+import CambiarPasswordForm from "./CambiarPasswordForm";
 import { EncabezadoPanel } from "./PanelComponentes";
 import { obtenerIniciales } from "./utils";
 
@@ -37,6 +38,7 @@ function PerfilPanel({ datos }) {
           </div>
         )}
       </section>
+      {usuario.id_usuario && <CambiarPasswordForm idUsuario={usuario.id_usuario} />}
     </>
   );
 }
