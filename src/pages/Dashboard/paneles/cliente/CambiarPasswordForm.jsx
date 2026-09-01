@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { cambiarPasswordUsuario } from "../../../../api/usuariosApi";
+import PasswordField from "../../../../components/PasswordField";
 
 const datosIniciales = {
   passwordActual: "",
@@ -59,13 +60,11 @@ function CambiarPasswordForm({ idUsuario }) {
         </label>
         <label>
           Nueva contraseña
-          <input
+          <PasswordField
             name="passwordNueva"
-            type="password"
-            minLength="8"
             value={formulario.passwordNueva}
             onChange={manejarCambio}
-            required
+            autoComplete="new-password"
           />
         </label>
         <label>
@@ -76,6 +75,7 @@ function CambiarPasswordForm({ idUsuario }) {
             minLength="8"
             value={formulario.passwordConfirmacion}
             onChange={manejarCambio}
+            autoComplete="new-password"
             required
           />
         </label>

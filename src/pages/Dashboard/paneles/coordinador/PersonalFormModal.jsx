@@ -1,4 +1,6 @@
 import { normalizar } from "./utils";
+import PasswordField from "../../../../components/PasswordField";
+import { MENSAJE_CEDULA, MENSAJE_NOMBRE, MENSAJE_TELEFONO, PATTERN_SOLO_LETRAS, PATTERN_SOLO_NUMEROS } from "../../../../utils/validaciones";
 
 function PersonalFormModal({ datos }) {
   const { formularios, cambiarFormulario, guardarPersonal, cerrarModal, guardando, roles, modoModal } = datos;
@@ -15,16 +17,32 @@ function PersonalFormModal({ datos }) {
             value={valores.cedula}
             onChange={(event) => cambiarFormulario("personal", event)}
             disabled={editando}
+            pattern={PATTERN_SOLO_NUMEROS}
+            title={MENSAJE_CEDULA}
             required
           />
         </label>
         <label>
           Nombres
-          <input name="nombres" value={valores.nombres} onChange={(event) => cambiarFormulario("personal", event)} required />
+          <input
+            name="nombres"
+            value={valores.nombres}
+            onChange={(event) => cambiarFormulario("personal", event)}
+            pattern={PATTERN_SOLO_LETRAS}
+            title={MENSAJE_NOMBRE}
+            required
+          />
         </label>
         <label>
           Apellidos
-          <input name="apellidos" value={valores.apellidos} onChange={(event) => cambiarFormulario("personal", event)} required />
+          <input
+            name="apellidos"
+            value={valores.apellidos}
+            onChange={(event) => cambiarFormulario("personal", event)}
+            pattern={PATTERN_SOLO_LETRAS}
+            title={MENSAJE_NOMBRE}
+            required
+          />
         </label>
         <label>
           Rol
@@ -45,7 +63,14 @@ function PersonalFormModal({ datos }) {
         </label>
         <label>
           Teléfono
-          <input name="telefono" value={valores.telefono} onChange={(event) => cambiarFormulario("personal", event)} required />
+          <input
+            name="telefono"
+            value={valores.telefono}
+            onChange={(event) => cambiarFormulario("personal", event)}
+            pattern={PATTERN_SOLO_NUMEROS}
+            title={MENSAJE_TELEFONO}
+            required
+          />
         </label>
         {!editando && (
           <>
@@ -55,13 +80,11 @@ function PersonalFormModal({ datos }) {
             </label>
             <label>
               Contraseña
-              <input
+              <PasswordField
                 name="password"
-                type="password"
-                minLength="8"
                 value={valores.password}
                 onChange={(event) => cambiarFormulario("personal", event)}
-                required
+                autoComplete="new-password"
               />
             </label>
             <label className="admin-check">

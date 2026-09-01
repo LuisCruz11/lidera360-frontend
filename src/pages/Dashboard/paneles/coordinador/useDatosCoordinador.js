@@ -444,6 +444,12 @@ export function useDatosCoordinador() {
   const guardarTaller = (event) => {
     event.preventDefault();
     const data = formularios.taller;
+
+    if (data.fecha_inicio && data.fecha_fin && data.fecha_fin < data.fecha_inicio) {
+      setError("La fecha de fin no puede ser anterior a la fecha de inicio.");
+      return;
+    }
+
     const asignaciones = [
       data.coach && { cedula_personal: data.coach, rol_en_taller: "Coach" },
       data.coordinador && { cedula_personal: data.coordinador, rol_en_taller: "Coordinador" },

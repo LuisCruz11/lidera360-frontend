@@ -1,4 +1,6 @@
 import SelectEstado from "./SelectEstado";
+import PasswordField from "../../../../components/PasswordField";
+import { MENSAJE_CEDULA, MENSAJE_NOMBRE, MENSAJE_TELEFONO, PATTERN_SOLO_LETRAS, PATTERN_SOLO_NUMEROS } from "../../../../utils/validaciones";
 
 function ClienteFormModal({ datos }) {
   const { formularios, cambiarFormulario, guardarCliente, cerrarModal, guardando, estados, tiposTaller, modoModal } = datos;
@@ -15,16 +17,32 @@ function ClienteFormModal({ datos }) {
             value={valores.cedula}
             onChange={(event) => cambiarFormulario("cliente", event)}
             disabled={editando}
+            pattern={PATTERN_SOLO_NUMEROS}
+            title={MENSAJE_CEDULA}
             required
           />
         </label>
         <label>
           Nombres
-          <input name="nombres" value={valores.nombres} onChange={(event) => cambiarFormulario("cliente", event)} required />
+          <input
+            name="nombres"
+            value={valores.nombres}
+            onChange={(event) => cambiarFormulario("cliente", event)}
+            pattern={PATTERN_SOLO_LETRAS}
+            title={MENSAJE_NOMBRE}
+            required
+          />
         </label>
         <label>
           Apellidos
-          <input name="apellidos" value={valores.apellidos} onChange={(event) => cambiarFormulario("cliente", event)} required />
+          <input
+            name="apellidos"
+            value={valores.apellidos}
+            onChange={(event) => cambiarFormulario("cliente", event)}
+            pattern={PATTERN_SOLO_LETRAS}
+            title={MENSAJE_NOMBRE}
+            required
+          />
         </label>
         <label>
           Correo
@@ -32,7 +50,13 @@ function ClienteFormModal({ datos }) {
         </label>
         <label>
           Teléfono
-          <input name="telefono" value={valores.telefono} onChange={(event) => cambiarFormulario("cliente", event)} />
+          <input
+            name="telefono"
+            value={valores.telefono}
+            onChange={(event) => cambiarFormulario("cliente", event)}
+            pattern={PATTERN_SOLO_NUMEROS}
+            title={MENSAJE_TELEFONO}
+          />
         </label>
         <label>
           Sexo
@@ -44,7 +68,15 @@ function ClienteFormModal({ datos }) {
         </label>
         <label>
           Edad
-          <input name="edad" type="number" min="1" value={valores.edad} onChange={(event) => cambiarFormulario("cliente", event)} required />
+          <input
+            name="edad"
+            type="number"
+            min="1"
+            max="120"
+            value={valores.edad}
+            onChange={(event) => cambiarFormulario("cliente", event)}
+            required
+          />
         </label>
         <label>
           Estado
@@ -74,13 +106,11 @@ function ClienteFormModal({ datos }) {
             </label>
             <label>
               Contraseña
-              <input
+              <PasswordField
                 name="password"
-                type="password"
-                minLength="8"
                 value={valores.password}
                 onChange={(event) => cambiarFormulario("cliente", event)}
-                required
+                autoComplete="new-password"
               />
             </label>
           </>

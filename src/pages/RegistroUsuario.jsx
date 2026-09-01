@@ -2,6 +2,7 @@ import { useState } from "react";
 import { registrarUsuario } from "../api/usuariosApi";
 import "../styles/registroUsuario.css";
 import logo from "../assets/images/logo.png";
+import { REGEX_SOLO_LETRAS, REGEX_SOLO_NUMEROS, requisitosPassword, validarPassword } from "../utils/validaciones";
 
 const datosIniciales = {
   cedula: "",
@@ -28,10 +29,6 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
   const [cargando, setCargando] = useState(false);
   const [campoActivo, setCampoActivo] = useState("");
 
-  const soloLetrasRegex = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/;
-  const soloNumerosRegex = /^\d+$/;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
-
   const manejarCambio = (event) => {
     const { name, value: valueOriginal } = event.target;
     let value = valueOriginal;
@@ -50,22 +47,20 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
     }));
   };
 
-  const validarPassword = (password) => passwordRegex.test(password);
-
   const validarFormulario = () => {
-    if (!formulario.cedula || !soloNumerosRegex.test(formulario.cedula)) {
+    if (!formulario.cedula || !REGEX_SOLO_NUMEROS.test(formulario.cedula)) {
       return "La cédula debe contener solo números.";
     }
 
-    if (!formulario.nombres || !soloLetrasRegex.test(formulario.nombres)) {
+    if (!formulario.nombres || !REGEX_SOLO_LETRAS.test(formulario.nombres)) {
       return "El nombre solo puede contener letras y espacios.";
     }
 
-    if (!formulario.apellidos || !soloLetrasRegex.test(formulario.apellidos)) {
+    if (!formulario.apellidos || !REGEX_SOLO_LETRAS.test(formulario.apellidos)) {
       return "El apellido solo puede contener letras y espacios.";
     }
 
-    if (!formulario.telefono || !soloNumerosRegex.test(formulario.telefono)) {
+    if (!formulario.telefono || !REGEX_SOLO_NUMEROS.test(formulario.telefono)) {
       return "El teléfono debe contener solo números.";
     }
 
@@ -76,13 +71,7 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
     return "";
   };
 
-  const requisitosPassword = {
-    minLength: formulario.password.length >= 8,
-    hasUpper: /[A-Z]/.test(formulario.password),
-    hasLower: /[a-z]/.test(formulario.password),
-    hasNumber: /\d/.test(formulario.password),
-    hasSymbol: /[@$!%?&#]/.test(formulario.password),
-  };
+  const estadoPassword = requisitosPassword(formulario.password);
 
   const manejarEnvio = async (event) => {
     event.preventDefault();
@@ -245,20 +234,20 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
             <div className="input-helper password-requirements">
               <p>Mínimo 8 caracteres, al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.</p>
               <ul>
-                <li className={requisitosPassword.minLength ? "requirement-met" : "requirement-unmet"}>
-                  {requisitosPassword.minLength ? "✓" : "○"} 8 caracteres o más
+                <li className={estadoPassword.minLength ? "requirement-met" : "requirement-unmet"}>
+                  {estadoPassword.minLength ? "✓" : "○"} 8 caracteres o más
                 </li>
-                <li className={requisitosPassword.hasUpper ? "requirement-met" : "requirement-unmet"}>
-                  {requisitosPassword.hasUpper ? "✓" : "○"} Una letra mayúscula
+                <li className={estadoPassword.hasUpper ? "requirement-met" : "requirement-unmet"}>
+                  {estadoPassword.hasUpper ? "✓" : "○"} Una letra mayúscula
                 </li>
-                <li className={requisitosPassword.hasLower ? "requirement-met" : "requirement-unmet"}>
-                  {requisitosPassword.hasLower ? "✓" : "○"} Una letra minúscula
+                <li className={estadoPassword.hasLower ? "requirement-met" : "requirement-unmet"}>
+                  {estadoPassword.hasLower ? "✓" : "○"} Una letra minúscula
                 </li>
-                <li className={requisitosPassword.hasNumber ? "requirement-met" : "requirement-unmet"}>
-                  {requisitosPassword.hasNumber ? "✓" : "○"} Un número
+                <li className={estadoPassword.hasNumber ? "requirement-met" : "requirement-unmet"}>
+                  {estadoPassword.hasNumber ? "✓" : "○"} Un número
                 </li>
-                <li className={requisitosPassword.hasSymbol ? "requirement-met" : "requirement-unmet"}>
-                  {requisitosPassword.hasSymbol ? "✓" : "○"} Un carácter especial (@$!%?&)
+                <li className={estadoPassword.hasSymbol ? "requirement-met" : "requirement-unmet"}>
+                  {estadoPassword.hasSymbol ? "✓" : "○"} Un carácter especial (@$!%?&)
                 </li>
               </ul>
             </div>
