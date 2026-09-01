@@ -1,4 +1,6 @@
 import "../../../styles/dashboard.css";
+import "../../../styles/admin.css";
+import CambiarPasswordForm from "./CambiarPasswordForm";
 
 function PanelCoach({ usuario }) {
   return (
@@ -9,6 +11,10 @@ function PanelCoach({ usuario }) {
         <button>Ver mis clientes</button>
         <button>Crear taller</button>
         <button>Calificar estudiantes</button>
+      </div>
+      <div className="admin-panel-box panel-cuenta">
+        <h3>Mi cuenta</h3>
+        <CambiarPasswordForm idUsuario={usuario.id_usuario} />
       </div>
     </div>
   );

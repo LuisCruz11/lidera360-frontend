@@ -10,6 +10,7 @@ import PersonalPanel from "./coordinador/PersonalPanel";
 import ProgresoPanel from "./coordinador/ProgresoPanel";
 import AuditoriaPanel from "./coordinador/AuditoriaPanel";
 import CalendarioPanel from "./coordinador/CalendarioPanel";
+import MiCuentaPanel from "./coordinador/MiCuentaPanel";
 import ClienteFormModal from "./coordinador/ClienteFormModal";
 import TallerFormModal from "./coordinador/TallerFormModal";
 import InscripcionFormModal from "./coordinador/InscripcionFormModal";
@@ -25,6 +26,7 @@ const seccionesAdmin = [
   { id: "progreso", etiqueta: "Progreso", icono: "trend" },
   { id: "auditoria", etiqueta: "Auditoría", icono: "history" },
   { id: "calendario", etiqueta: "Calendario", icono: "calendar" },
+  { id: "cuenta", etiqueta: "Mi Cuenta", icono: "lock" },
 ];
 
 const paneles = {
@@ -87,7 +89,11 @@ function PanelCoordinador({ usuario, onLogout }) {
         <div className="admin-user-line">Bienvenido, {usuario.username}</div>
         {mensaje && <p className="admin-alert admin-alert-success">{mensaje}</p>}
         {error && <p className="admin-alert admin-alert-error">{error}</p>}
-        <SeccionActiva datos={datos} />
+        {seccionActiva === "cuenta" ? (
+          <MiCuentaPanel idUsuario={usuario.id_usuario} />
+        ) : (
+          <SeccionActiva datos={datos} />
+        )}
       </section>
 
       {modalActivo && modalConfig && (

@@ -118,6 +118,16 @@
   background: #e8d9f5;
 }
 
+.panel-cuenta {
+  margin-top: 24px;
+}
+
+.panel-cuenta h3 {
+  margin: 0 0 16px;
+  font-size: 16px;
+  color: #321a4f;
+}
+
 @media (max-width: 768px) {
   .dashboard-navbar {
     flex-direction: column;
