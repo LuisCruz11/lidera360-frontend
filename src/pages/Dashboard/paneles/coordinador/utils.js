@@ -4,6 +4,11 @@ export const formatterFecha = new Intl.DateTimeFormat("es-CO", {
   year: "numeric",
 });
 
+export const formateadorMes = new Intl.DateTimeFormat("es-CO", {
+  month: "long",
+  year: "numeric",
+});
+
 export const hoyISO = () => {
   const fecha = new Date();
   const mes = String(fecha.getMonth() + 1).padStart(2, "0");
@@ -89,3 +94,32 @@ export const ordenarPorFechaDesc = (lista, llave) =>
     const fechaB = crearFecha(b[llave])?.getTime() || 0;
     return fechaB - fechaA;
   });
+
+export const construirCeldasCalendario = (fechaBase, talleres) => {
+  const anio = fechaBase.getFullYear();
+  const mes = fechaBase.getMonth();
+  const primerDia = new Date(anio, mes, 1).getDay();
+  const totalDias = new Date(anio, mes + 1, 0).getDate();
+  const celdas = [];
+
+  for (let i = 0; i < primerDia; i += 1) {
+    celdas.push({ clave: `vacio-${i}`, dia: null, eventos: [] });
+  }
+
+  for (let dia = 1; dia <= totalDias; dia += 1) {
+    const fechaDia = new Date(anio, mes, dia);
+    const eventos = talleres.filter((taller) => {
+      const inicio = crearFecha(taller.fecha_inicio);
+      const fin = crearFecha(taller.fecha_fin) || inicio;
+      return inicio && inicio <= fechaDia && fin >= fechaDia;
+    });
+
+    celdas.push({ clave: `${anio}-${mes}-${dia}`, dia, eventos });
+  }
+
+  while (celdas.length % 7 !== 0) {
+    celdas.push({ clave: `final-${celdas.length}`, dia: null, eventos: [] });
+  }
+
+  return celdas;
+};

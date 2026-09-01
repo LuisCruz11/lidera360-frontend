@@ -313,21 +313,135 @@
   color: #3755c2;
 }
 
-.admin-calendar-list {
-  display: grid;
-  gap: 16px;
+.admin-calendar-card {
+  overflow: hidden;
   margin-top: 18px;
+  border: 1px solid #eadff1;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(47, 23, 72, 0.08);
 }
 
-.admin-calendar-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 16px;
+.admin-calendar-toolbar {
+  height: 58px;
+  padding: 0 20px;
+  display: flex;
   align-items: center;
-  padding: 18px 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid #eadff1;
+}
+
+.admin-calendar-toolbar h3 {
+  margin: 0;
+  color: #2b123f;
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.admin-calendar-toolbar button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #9c7db5;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.admin-calendar-toolbar button:hover {
+  background: #f3eafb;
+  color: #5b2c6f;
+}
+
+.admin-calendar-weekdays,
+.admin-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.admin-calendar-weekdays {
+  min-height: 26px;
+  align-items: center;
+  background: #fbf7ff;
+  border-bottom: 1px solid #eadff1;
+}
+
+.admin-calendar-weekdays span {
+  text-align: center;
+  color: #9575ad;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.admin-calendar-day {
+  min-height: 84px;
+  padding: 6px 5px;
+  border-right: 1px solid #eee5f5;
+  border-bottom: 1px solid #eee5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   background: #ffffff;
-  border: 1px solid #ede6f5;
-  border-radius: 18px;
+}
+
+.admin-calendar-day:nth-child(7n) {
+  border-right: 0;
+}
+
+.admin-calendar-day-vacio {
+  background: #fffcff;
+}
+
+.admin-calendar-numero {
+  color: #85679e;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-calendar-evento,
+.admin-calendar-mas {
+  min-height: 18px;
+  border: 0;
+  border-radius: 4px;
+  padding: 3px 5px;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-calendar-evento {
+  background: #7e3dff;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.admin-calendar-evento:hover {
+  filter: brightness(1.08);
+}
+
+.admin-calendar-mas {
+  color: #5f467a;
+  background: transparent;
+  font-size: 10px;
+}
+
+.admin-calendar-detalle p {
+  margin: 0 0 10px;
+  color: #4c3b6f;
+  font-size: 14px;
+}
+
+.admin-calendar-detalle strong {
+  color: #2b123f;
 }
 
 .admin-modal-backdrop {
@@ -496,5 +610,15 @@
 
   .admin-form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .admin-calendar-card {
+    overflow-x: auto;
+  }
+
+  .admin-calendar-weekdays,
+  .admin-calendar-grid,
+  .admin-calendar-toolbar {
+    min-width: 680px;
   }
 }
