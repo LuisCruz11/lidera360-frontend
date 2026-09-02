@@ -2,7 +2,7 @@ import { useState } from "react";
 import { registrarUsuario } from "../api/usuariosApi";
 import "../styles/registroUsuario.css";
 import logo from "../assets/images/logo.png";
-import { REGEX_SOLO_LETRAS, REGEX_SOLO_NUMEROS, requisitosPassword, validarPassword } from "../utils/validaciones";
+import { REGEX_CEDULA, REGEX_SOLO_LETRAS, REGEX_TELEFONO, requisitosPassword, validarPassword } from "../utils/validaciones";
 
 const datosIniciales = {
   cedula: "",
@@ -33,8 +33,12 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
     const { name, value: valueOriginal } = event.target;
     let value = valueOriginal;
 
-    if (name === "cedula" || name === "telefono") {
-      value = valueOriginal.replace(/\D/g, "");
+    if (name === "cedula") {
+      value = valueOriginal.replace(/\D/g, "").slice(0, 10);
+    }
+
+    if (name === "telefono") {
+      value = valueOriginal.replace(/\D/g, "").slice(0, 10);
     }
 
     if (name === "nombres" || name === "apellidos") {
@@ -48,8 +52,8 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
   };
 
   const validarFormulario = () => {
-    if (!formulario.cedula || !REGEX_SOLO_NUMEROS.test(formulario.cedula)) {
-      return "La cédula debe contener solo números.";
+    if (!formulario.cedula || !REGEX_CEDULA.test(formulario.cedula)) {
+      return "La cédula debe contener solo números, entre 6 y 10 dígitos.";
     }
 
     if (!formulario.nombres || !REGEX_SOLO_LETRAS.test(formulario.nombres)) {
@@ -60,8 +64,8 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
       return "El apellido solo puede contener letras y espacios.";
     }
 
-    if (!formulario.telefono || !REGEX_SOLO_NUMEROS.test(formulario.telefono)) {
-      return "El teléfono debe contener solo números.";
+    if (!formulario.telefono || !REGEX_TELEFONO.test(formulario.telefono)) {
+      return "El teléfono debe contener solo números, entre 7 y 10 dígitos.";
     }
 
     if (!validarPassword(formulario.password)) {
@@ -124,11 +128,13 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
             onChange={manejarCambio}
             onFocus={() => setCampoActivo("cedula")}
             onBlur={() => setCampoActivo("")}
+            minLength={6}
+            maxLength={10}
             required
           />
           {campoActivo === "cedula" && (
             <div className="input-helper">
-              <p>Cédula: solo números, sin espacios ni símbolos.</p>
+              <p>Cédula: solo números, entre 6 y 10 dígitos.</p>
             </div>
           )}
         </div>
@@ -184,11 +190,13 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
             onChange={manejarCambio}
             onFocus={() => setCampoActivo("telefono")}
             onBlur={() => setCampoActivo("")}
+            minLength={7}
+            maxLength={10}
             required
           />
           {campoActivo === "telefono" && (
             <div className="input-helper">
-              <p>Teléfono: solo números, sin espacios ni símbolos.</p>
+              <p>Teléfono: solo números, entre 7 y 10 dígitos.</p>
             </div>
           )}
         </div>

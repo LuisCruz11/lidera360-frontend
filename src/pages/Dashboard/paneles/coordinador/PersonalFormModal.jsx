@@ -1,6 +1,6 @@
 import { normalizar } from "./utils";
 import PasswordField from "../../../../components/PasswordField";
-import { MENSAJE_CEDULA, MENSAJE_NOMBRE, MENSAJE_TELEFONO, PATTERN_SOLO_LETRAS, PATTERN_SOLO_NUMEROS } from "../../../../utils/validaciones";
+import { MENSAJE_CEDULA, MENSAJE_NOMBRE, MENSAJE_TELEFONO, PATTERN_CEDULA, PATTERN_SOLO_LETRAS, PATTERN_TELEFONO } from "../../../../utils/validaciones";
 
 function PersonalFormModal({ datos }) {
   const { formularios, cambiarFormulario, guardarPersonal, cerrarModal, guardando, roles, modoModal } = datos;
@@ -17,8 +17,10 @@ function PersonalFormModal({ datos }) {
             value={valores.cedula}
             onChange={(event) => cambiarFormulario("personal", event)}
             disabled={editando}
-            pattern={PATTERN_SOLO_NUMEROS}
+            pattern={PATTERN_CEDULA}
             title={MENSAJE_CEDULA}
+            minLength={6}
+            maxLength={10}
             required
           />
         </label>
@@ -67,8 +69,10 @@ function PersonalFormModal({ datos }) {
             name="telefono"
             value={valores.telefono}
             onChange={(event) => cambiarFormulario("personal", event)}
-            pattern={PATTERN_SOLO_NUMEROS}
+            pattern={PATTERN_TELEFONO}
             title={MENSAJE_TELEFONO}
+            minLength={7}
+            maxLength={10}
             required
           />
         </label>

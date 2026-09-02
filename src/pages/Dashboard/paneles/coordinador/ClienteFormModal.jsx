@@ -1,6 +1,6 @@
 import SelectEstado from "./SelectEstado";
 import PasswordField from "../../../../components/PasswordField";
-import { MENSAJE_CEDULA, MENSAJE_NOMBRE, MENSAJE_TELEFONO, PATTERN_SOLO_LETRAS, PATTERN_SOLO_NUMEROS } from "../../../../utils/validaciones";
+import { MENSAJE_CEDULA, MENSAJE_NOMBRE, MENSAJE_TELEFONO, PATTERN_CEDULA, PATTERN_SOLO_LETRAS, PATTERN_TELEFONO } from "../../../../utils/validaciones";
 
 function ClienteFormModal({ datos }) {
   const { formularios, cambiarFormulario, guardarCliente, cerrarModal, guardando, estados, tiposTaller, modoModal } = datos;
@@ -17,8 +17,10 @@ function ClienteFormModal({ datos }) {
             value={valores.cedula}
             onChange={(event) => cambiarFormulario("cliente", event)}
             disabled={editando}
-            pattern={PATTERN_SOLO_NUMEROS}
+            pattern={PATTERN_CEDULA}
             title={MENSAJE_CEDULA}
+            minLength={6}
+            maxLength={10}
             required
           />
         </label>
@@ -54,8 +56,10 @@ function ClienteFormModal({ datos }) {
             name="telefono"
             value={valores.telefono}
             onChange={(event) => cambiarFormulario("cliente", event)}
-            pattern={PATTERN_SOLO_NUMEROS}
+            pattern={PATTERN_TELEFONO}
             title={MENSAJE_TELEFONO}
+            minLength={7}
+            maxLength={10}
           />
         </label>
         <label>
