@@ -552,6 +552,93 @@
   color: #77638e;
 }
 
+.admin-detalle-meta {
+  margin: 0 0 18px;
+  color: #6b558f;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-detalle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.admin-detalle-grid > div {
+  background: #f7f1ff;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.admin-detalle-label {
+  display: block;
+  margin-bottom: 4px;
+  color: #82639f;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.admin-detalle h4 {
+  margin: 0 0 10px;
+  color: #2b123f;
+  font-size: 14px;
+}
+
+.admin-lista-simple {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.admin-lista-simple li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid #ede6f5;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #3e2f5e;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-notas-lista {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.admin-notas-lista li {
+  padding: 12px 14px;
+  border: 1px solid #ede6f5;
+  border-radius: 10px;
+  background: #fbf7ff;
+}
+
+.admin-notas-lista p {
+  margin: 0 0 6px;
+  color: #3e2f5e;
+  font-size: 13px;
+}
+
+.admin-notas-lista span {
+  color: #8b6aa7;
+  font-size: 11px;
+  font-weight: 700;
+}
+
 @media (max-width: 1120px) {
   .admin-dashboard-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -9,6 +9,8 @@ export const obtenerTalleres = () => axiosClient.get("/talleres/");
 export const crearTaller = (data) => axiosClient.post("/talleres/", data);
 export const actualizarTaller = (idTaller, data) => axiosClient.put(`/talleres/${idTaller}`, data);
 export const eliminarTaller = (idTaller) => axiosClient.delete(`/talleres/${idTaller}`);
+export const obtenerDetalleTaller = (idTaller) => axiosClient.get(`/talleres/${idTaller}/detalle`);
+export const agregarNotaTaller = (idTaller, data) => axiosClient.post(`/talleres/${idTaller}/notas`, data);
 
 export const obtenerInscripciones = () => axiosClient.get("/inscripciones/");
 export const crearInscripcion = (data) => axiosClient.post("/inscripciones/", data);

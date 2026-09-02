@@ -19,11 +19,11 @@ function Dashboard({ usuario, onLogout }) {
   const rolUsuario = Number(usuario.id_rol);
   const Panel = paneles[rolUsuario];
   const esCliente = rolUsuario === 4;
-  const esCoordinador = rolUsuario === 5;
+  const esPanelCompleto = rolUsuario === 5 || rolUsuario === 3;
 
   return (
-    <div className={`dashboard ${esCliente ? "dashboard-cliente" : ""} ${esCoordinador ? "dashboard-coordinador" : ""}`}>
-      {!esCliente && !esCoordinador && <nav className="dashboard-navbar">
+    <div className={`dashboard ${esCliente ? "dashboard-cliente" : ""} ${esPanelCompleto ? "dashboard-coordinador" : ""}`}>
+      {!esCliente && !esPanelCompleto && <nav className="dashboard-navbar">
         <div className="navbar-left">
           <img src={logo} alt="Lidera360" className="navbar-logo" />
           <h1>Lidera360</h1>
@@ -35,7 +35,7 @@ function Dashboard({ usuario, onLogout }) {
           </button>
         </div>
       </nav>}
-      <main className={`dashboard-main ${esCliente ? "dashboard-main-cliente" : ""} ${esCoordinador ? "dashboard-main-coordinador" : ""}`}>
+      <main className={`dashboard-main ${esCliente ? "dashboard-main-cliente" : ""} ${esPanelCompleto ? "dashboard-main-coordinador" : ""}`}>
         <Panel usuario={usuario} onLogout={onLogout} />
       </main>
     </div>
