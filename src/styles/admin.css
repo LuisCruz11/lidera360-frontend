@@ -709,3 +709,40 @@
     min-width: 680px;
   }
 }
+
+.coach-participante {
+  flex-wrap: wrap;
+}
+
+.coach-participante-info {
+  display: grid;
+  gap: 2px;
+  min-width: 140px;
+}
+
+.coach-participante-info small {
+  color: #8b6aa7;
+  font-size: 11px;
+}
+
+.coach-evaluacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-basis: 100%;
+}
+
+.coach-evaluacion select,
+.coach-evaluacion input {
+  flex: 1 1 160px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid #ded2ee;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 500;
+}
+
+.coach-evaluacion .admin-primary-button {
+  flex: 0 0 auto;
+}
