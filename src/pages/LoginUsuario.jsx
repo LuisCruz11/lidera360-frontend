@@ -8,7 +8,7 @@ const datosIniciales = {
   password: "",
 };
 
-function LoginUsuario({ onVolverInicio, onLoginExito, onRegistroClick }) {
+function LoginUsuario({ onVolverInicio, onLoginExito, onRegistroClick, onOlvidePassword }) {
   const [formulario, setFormulario] = useState(datosIniciales);
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -76,6 +76,10 @@ function LoginUsuario({ onVolverInicio, onLoginExito, onRegistroClick }) {
           minLength="8"
           required
         />
+
+        <button className="login-register-link login-forgot" type="button" onClick={onOlvidePassword}>
+          ¿Olvidaste tu contraseña?
+        </button>
 
         <button className="login-button" type="submit" disabled={cargando}>
           {cargando ? "Iniciando sesión..." : "Iniciar sesión"}

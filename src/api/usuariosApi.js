@@ -29,3 +29,11 @@ export const cancelarInscripcionCliente = (cedula, idInscripcion) => {
 export const actualizarContactoCliente = (cedula, data) => {
   return axiosClient.put(`/clientes/${cedula}/perfil`, data);
 };
+
+export const solicitarRecuperacionPassword = (correo) => {
+  return axiosClient.post("/usuarios/recuperar-password", { correo });
+};
+
+export const restablecerPassword = (token, passwordNueva) => {
+  return axiosClient.post("/usuarios/restablecer-password", { token, password_nueva: passwordNueva });
+};

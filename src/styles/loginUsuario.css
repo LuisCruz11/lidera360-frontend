@@ -164,3 +164,23 @@
     padding: 22px;
   }
 }
+.login-ayuda {
+  margin: -6px 0 0;
+  color: #6b558f;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.login-label {
+  display: grid;
+  gap: 6px;
+  color: #4c3b6f;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.login-forgot {
+  align-self: flex-end;
+  margin-top: -4px;
+  font-size: 13px;
+}
