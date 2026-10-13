@@ -1,7 +1,8 @@
 import { useState } from "react";
 import ModalShell from "../coordinador/ModalShell";
 import ParticipantesCoach from "./ParticipantesCoach";
-import { etiquetaRegistro, formatearFechaHora, formatearRangoFechas } from "./utils";
+import BitacoraCoach from "./BitacoraCoach";
+import { formatearRangoFechas } from "./utils";
 
 function ContenidoTaller({ datos }) {
   const {
@@ -81,20 +82,7 @@ function ContenidoTaller({ datos }) {
             </div>
           </form>
 
-          {detalleTaller.notas.length === 0 ? (
-            <p className="admin-empty">Aún no hay actividades registradas.</p>
-          ) : (
-            <ul className="admin-notas-lista">
-              {detalleTaller.notas.map((registro) => (
-                <li key={registro.id_auditoria}>
-                  <p>{registro.descripcion}</p>
-                  <span>
-                    {etiquetaRegistro(registro.accion)} · {registro.usuario || "Usuario"} · {formatearFechaHora(registro.fecha)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <BitacoraCoach notas={detalleTaller.notas} />
         </>
       )}
     </div>

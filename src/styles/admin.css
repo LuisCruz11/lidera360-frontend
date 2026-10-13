@@ -840,3 +840,33 @@
 .coach-actividad-form {
   margin-bottom: 18px;
 }
+
+.coach-bitacora-lista {
+  max-height: min(46vh, 420px);
+  margin-bottom: 12px;
+}
+
+.coach-registro {
+  border-left: 4px solid #d8c6ea;
+}
+
+.coach-registro-actividad {
+  border-left-color: #7a3ce0;
+}
+
+.coach-registro-evaluacion {
+  border-left-color: #2c7af7;
+}
+
+.coach-registro-avance_nivel {
+  border-left-color: #18a566;
+}
+
+.coach-ver-mas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #77638e;
+  font-size: 12px;
+  font-weight: 700;
+}
