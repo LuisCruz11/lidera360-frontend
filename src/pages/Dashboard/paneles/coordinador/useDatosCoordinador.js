@@ -229,7 +229,7 @@ export function useDatosCoordinador() {
   }, [busqueda, obtenerRol, personal, seccionActiva]);
 
   const estadisticas = useMemo(() => {
-    const activos = clientes.filter((cliente) => normalizar(obtenerEstado(cliente.id_estado)).includes("activo")).length;
+    const activos = clientes.filter((cliente) => normalizar(obtenerEstado(cliente.id_estado)) === "activo").length;
     const talleresActivos = talleres.filter((taller) => {
       const estado = normalizar(obtenerEstado(taller.id_estado));
       return estado && !estado.includes("finalizado") && !estado.includes("inactivo");
@@ -263,13 +263,13 @@ export function useDatosCoordinador() {
       const inscripcionesCliente = inscripciones.filter((inscripcion) => inscripcion.cliente_cedula === cliente.cedula);
       const inscripcionesOrdenadas = ordenarPorFechaDesc(inscripcionesCliente, "fecha_inscripcion");
       const progreso = progresoPorCliente.get(String(cliente.cedula));
-      const completados = inscripcionesCliente.filter((inscripcion) =>
-        normalizar(obtenerEstado(inscripcion.id_estado)).includes("finalizado")
+      const estadosCliente = inscripcionesCliente.map((inscripcion) => normalizar(obtenerEstado(inscripcion.id_estado)));
+      const esNoAprobado = (estado) => estado.includes("no aprobado") || estado.includes("reprob");
+      const esCompletado = (estado) => !esNoAprobado(estado) && (estado.includes("aprobado") || estado.includes("finalizado"));
+      const completados = estadosCliente.filter(esCompletado).length;
+      const activas = estadosCliente.filter(
+        (estado) => estado && !esCompletado(estado) && !esNoAprobado(estado) && !estado.includes("inactivo")
       ).length;
-      const activas = inscripcionesCliente.filter((inscripcion) => {
-        const estado = normalizar(obtenerEstado(inscripcion.id_estado));
-        return estado && !estado.includes("finalizado") && !estado.includes("inactivo");
-      }).length;
 
       return {
         cliente,

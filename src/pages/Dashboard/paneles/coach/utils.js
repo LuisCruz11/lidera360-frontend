@@ -2,7 +2,7 @@ import { normalizar } from "../personalCapacitado/utils";
 
 export { formatearFechaHora, formatearRangoFechas, normalizar } from "../personalCapacitado/utils";
 
-const PALABRAS_EVALUACION = ["aprob", "reprob", "inici", "curso", "progreso", "finaliz", "complet"];
+const PALABRAS_EVALUACION = ["inici", "aprob", "reprob"];
 
 export const filtrarEstadosEvaluacion = (estados) => {
   const filtrados = estados.filter((estado) =>
