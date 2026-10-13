@@ -11,6 +11,7 @@ function CalendarioPanel({ datos }) {
     setDesplazamientoMes,
     talleresDisponibles,
     cargando,
+    programaCompletado,
     setTallerPorInscribir,
   } = datos;
 
@@ -24,7 +25,12 @@ function CalendarioPanel({ datos }) {
             : "Visualiza los talleres programados a los que te puedes inscribir"
         }
       />
-      {!cargando && talleresDisponibles.length === 0 && (
+      {programaCompletado && (
+        <p className="cliente-alerta cliente-alerta-exito">
+          ¡Felicitaciones! Completaste todos los niveles del programa Lidera360.
+        </p>
+      )}
+      {!cargando && !programaCompletado && talleresDisponibles.length === 0 && (
         <p className="cliente-aviso">
           No hay talleres disponibles para tu nivel en este momento. Te avisaremos cuando se programen nuevos.
         </p>

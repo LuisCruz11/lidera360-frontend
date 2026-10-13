@@ -134,11 +134,14 @@ export function useDatosCoach() {
     setErrorDetalle("");
     setMensajeDetalle("");
     try {
-      await evaluarParticipanteCoach(idInscripcion, {
+      const respuesta = await evaluarParticipanteCoach(idInscripcion, {
         id_estado: Number(evaluacion.id_estado),
         observacion: evaluacion.observacion?.trim() || "",
       });
-      setMensajeDetalle("Evaluación guardada.");
+      const nivelNuevo = respuesta.data?.nivel_nuevo;
+      setMensajeDetalle(
+        nivelNuevo ? `Evaluación guardada. El participante subió al nivel ${nivelNuevo}.` : "Evaluación guardada."
+      );
       await Promise.all([recargarDetalle(tallerSeleccionado.id_taller), cargarDatos()]);
     } catch (err) {
       setErrorDetalle(err.response?.data?.mensaje || "No se pudo guardar la evaluación.");

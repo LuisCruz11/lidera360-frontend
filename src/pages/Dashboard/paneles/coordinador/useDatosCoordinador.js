@@ -411,8 +411,8 @@ export function useDatosCoordinador() {
     setMensaje("");
 
     try {
-      await callback();
-      setMensaje(mensajeExito);
+      const respuesta = await callback();
+      setMensaje(typeof mensajeExito === "function" ? mensajeExito(respuesta) : mensajeExito);
       setModalActivo(null);
       setModoModal("crear");
       setIdEnEdicion(null);
@@ -481,10 +481,18 @@ export function useDatosCoordinador() {
       fecha_inscripcion: data.fecha_inscripcion,
     };
 
+    const conAvanceDeNivel = (mensajeBase) => (respuesta) => {
+      const nivelNuevo = respuesta?.data?.nivel_nuevo;
+      return nivelNuevo ? `${mensajeBase} El cliente subió al nivel ${nivelNuevo}.` : mensajeBase;
+    };
+
     if (modoModal === "editar") {
-      ejecutarGuardado(() => actualizarInscripcion(idEnEdicion, payload), "Inscripción actualizada correctamente.");
+      ejecutarGuardado(
+        () => actualizarInscripcion(idEnEdicion, payload),
+        conAvanceDeNivel("Inscripción actualizada correctamente.")
+      );
     } else {
-      ejecutarGuardado(() => crearInscripcion(payload), "Inscripción creada correctamente.");
+      ejecutarGuardado(() => crearInscripcion(payload), conAvanceDeNivel("Inscripción creada correctamente."));
     }
   };
 

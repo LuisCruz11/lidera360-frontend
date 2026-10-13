@@ -11,6 +11,7 @@ export function useDatosCliente(usuario) {
   const [seccionActiva, setSeccionActiva] = useState("talleres");
   const [cliente, setCliente] = useState(null);
   const [progreso, setProgreso] = useState(null);
+  const [programaCompletado, setProgramaCompletado] = useState(false);
   const [talleresInscritos, setTalleresInscritos] = useState([]);
   const [talleresDisponibles, setTalleresDisponibles] = useState([]);
   const [desplazamientoMes, setDesplazamientoMes] = useState(0);
@@ -32,6 +33,7 @@ export function useDatosCliente(usuario) {
       const panel = respuesta.data || {};
       setCliente(panel.perfil || null);
       setProgreso(panel.progreso || null);
+      setProgramaCompletado(Boolean(panel.programa_completado));
       setTalleresInscritos((panel.historial_inscripciones || []).map(normalizarTaller));
       setTalleresDisponibles((panel.talleres_disponibles || []).map(normalizarTaller));
     } catch (err) {
@@ -201,5 +203,6 @@ export function useDatosCliente(usuario) {
     fechaBaseCalendario,
     celdasCalendario,
     nivelActual,
+    programaCompletado,
   };
 }

@@ -62,7 +62,7 @@ function ContactoForm({ cliente, guardando, onGuardar }) {
 }
 
 function PerfilPanel({ datos }) {
-  const { cliente, usuario, nombreCliente, nivelActual, guardandoContacto, guardarContacto } = datos;
+  const { cliente, usuario, nombreCliente, nivelActual, programaCompletado, guardandoContacto, guardarContacto } = datos;
 
   const estadoUsuario =
     cliente?.estado || (usuario.activo === true ? "Activo" : usuario.activo === false ? "Inactivo" : "");
@@ -72,7 +72,7 @@ function PerfilPanel({ datos }) {
     { etiqueta: "Teléfono", valor: cliente?.telefono },
     { etiqueta: "Edad", valor: cliente?.edad },
     { etiqueta: "Estado", valor: estadoUsuario },
-    { etiqueta: "Nivel actual", valor: nivelActual },
+    { etiqueta: "Nivel actual", valor: programaCompletado ? `${nivelActual} (programa completado)` : nivelActual },
   ].filter((campo) => campo.valor !== undefined && campo.valor !== null && campo.valor !== "");
 
   return (
