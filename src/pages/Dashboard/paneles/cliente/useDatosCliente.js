@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   actualizarContactoCliente,
   cancelarInscripcionCliente,
-  descargarCertificadoCliente,
   inscribirClienteTaller,
   obtenerPanelCliente,
 } from "../../../../api/usuariosApi";
@@ -25,7 +24,6 @@ export function useDatosCliente(usuario) {
   const [tallerPorCancelar, setTallerPorCancelar] = useState(null);
   const [cancelando, setCancelando] = useState(false);
   const [guardandoContacto, setGuardandoContacto] = useState(false);
-  const [descargandoId, setDescargandoId] = useState(null);
 
   const cargarPanelCliente = useCallback(async (cedulaCliente, estaActivo = () => true) => {
     try {
@@ -127,37 +125,6 @@ export function useDatosCliente(usuario) {
     }
   };
 
-  const descargarCertificado = async (taller) => {
-    const cedulaCliente = usuario.cedula_cliente;
-    if (!cedulaCliente || !taller?.id_inscripcion || descargandoId) return;
-
-    setDescargandoId(taller.id_inscripcion);
-    limpiarAvisos();
-    try {
-      const respuesta = await descargarCertificadoCliente(cedulaCliente, taller.id_inscripcion);
-      const url = URL.createObjectURL(new Blob([respuesta.data], { type: "application/pdf" }));
-      const enlace = document.createElement("a");
-      enlace.href = url;
-      enlace.download = `Certificado-${taller.nombre}-${taller.codigo_certificado}.pdf`.replace(/\s+/g, "_");
-      document.body.appendChild(enlace);
-      enlace.click();
-      enlace.remove();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      let mensajeError = "No se pudo descargar el certificado.";
-      if (err.response?.data instanceof Blob) {
-        try {
-          mensajeError = JSON.parse(await err.response.data.text()).mensaje || mensajeError;
-        } catch {
-          // La respuesta de error no era JSON; se conserva el mensaje genérico.
-        }
-      }
-      setError(mensajeError);
-    } finally {
-      setDescargandoId(null);
-    }
-  };
-
   const nombreCliente = useMemo(() => {
     const nombreCompleto = `${cliente?.nombres || ""} ${cliente?.apellidos || ""}`.trim();
     return nombreCompleto || usuario.username || "Cliente";
@@ -230,8 +197,6 @@ export function useDatosCliente(usuario) {
     confirmarCancelacion,
     guardandoContacto,
     guardarContacto,
-    descargandoId,
-    descargarCertificado,
     nombreCliente,
     talleresEnCurso,
     estadisticas,

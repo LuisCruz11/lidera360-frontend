@@ -89,7 +89,6 @@ export function normalizarTaller(taller) {
     id_tipo_taller: taller.id_tipo_taller,
     nivel: taller.nivel || obtenerNivel(categoria),
     puede_cancelar: Boolean(taller.puede_cancelar),
-    codigo_certificado: taller.codigo_certificado || "",
   };
 }
 
