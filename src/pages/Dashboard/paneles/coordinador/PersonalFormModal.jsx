@@ -100,7 +100,7 @@ function PersonalFormModal({ datos }) {
       </div>
       {editando && <p className="admin-form-hint">El usuario y la contraseña no se modifican desde este formulario.</p>}
       <div className="admin-form-actions">
-        <button type="button" onClick={cerrarModal}>Cancelar</button>
+        <button type="button" className="admin-primary-button" onClick={cerrarModal}>Cancelar</button>
         <button type="submit" className="admin-primary-button" disabled={guardando}>
           {guardando ? "Guardando..." : editando ? "Guardar cambios" : "Crear personal"}
         </button>
