@@ -64,7 +64,6 @@ function AuditoriaPanel({ datos }) {
       <header className="admin-header admin-header-actions">
         <div>
           <h2>Auditoría</h2>
-          <p>Registro de las acciones realizadas en el sistema. Los registros no se pueden modificar ni eliminar.</p>
         </div>
         <div className="admin-actions">
           <select

@@ -3,7 +3,7 @@ import PasswordField from "../../../../components/PasswordField";
 import { MENSAJE_CEDULA, MENSAJE_NOMBRE, MENSAJE_TELEFONO, PATTERN_CEDULA, PATTERN_SOLO_LETRAS, PATTERN_TELEFONO } from "../../../../utils/validaciones";
 
 function ClienteFormModal({ datos }) {
-  const { formularios, cambiarFormulario, guardarCliente, cerrarModal, guardando, estados, tiposTaller, modoModal } = datos;
+  const { formularios, cambiarFormulario, guardarCliente, cerrarModal, guardando, estadosPara, tiposTaller, modoModal } = datos;
   const valores = formularios.cliente;
   const editando = modoModal === "editar";
 
@@ -84,7 +84,7 @@ function ClienteFormModal({ datos }) {
         </label>
         <label>
           Estado
-          <SelectEstado estados={estados} value={valores.id_estado} onChange={(event) => cambiarFormulario("cliente", event)} />
+          <SelectEstado estados={estadosPara("cliente")} value={valores.id_estado} onChange={(event) => cambiarFormulario("cliente", event)} />
         </label>
         <label>
           Nivel

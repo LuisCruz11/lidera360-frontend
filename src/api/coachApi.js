@@ -5,4 +5,4 @@ export const obtenerDetalleTallerCoach = (idTaller) => axiosClient.get(`/coach/t
 export const registrarActividadCoach = (idTaller, data) => axiosClient.post(`/coach/talleres/${idTaller}/actividades`, data);
 export const evaluarParticipanteCoach = (idInscripcion, data) =>
   axiosClient.put(`/coach/inscripciones/${idInscripcion}/evaluacion`, data);
-export const obtenerEstadosCoach = () => axiosClient.get("/estados/");
+export const obtenerEstadosCoach = () => axiosClient.get("/estados/", { params: { aplica_a: "inscripcion" } });

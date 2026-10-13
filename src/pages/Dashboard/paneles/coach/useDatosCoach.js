@@ -6,7 +6,7 @@ import {
   obtenerTalleresCoach,
   registrarActividadCoach,
 } from "../../../../api/coachApi";
-import { filtrarEstadosEvaluacion, normalizar } from "./utils";
+import { normalizar } from "./utils";
 
 export function useDatosCoach() {
   const [seccionActiva, setSeccionActiva] = useState("talleres");
@@ -44,7 +44,7 @@ export function useDatosCoach() {
     queueMicrotask(cargarDatos);
   }, [cargarDatos]);
 
-  const estadosEvaluacion = useMemo(() => filtrarEstadosEvaluacion(estados), [estados]);
+  const estadosEvaluacion = estados;
 
   const talleresFiltrados = useMemo(() => {
     const texto = normalizar(busqueda.trim());

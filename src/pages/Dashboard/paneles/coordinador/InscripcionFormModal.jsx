@@ -2,7 +2,7 @@ import SelectEstado from "./SelectEstado";
 import { nombreCompleto } from "./utils";
 
 function InscripcionFormModal({ datos }) {
-  const { formularios, cambiarFormulario, guardarInscripcion, cerrarModal, guardando, estados, clientes, talleres, obtenerTipo, modoModal } =
+  const { formularios, cambiarFormulario, guardarInscripcion, cerrarModal, guardando, estadosPara, clientes, talleres, obtenerTipo, modoModal } =
     datos;
   const valores = formularios.inscripcion;
   const editando = modoModal === "editar";
@@ -46,7 +46,7 @@ function InscripcionFormModal({ datos }) {
         </label>
         <label>
           Estado
-          <SelectEstado estados={estados} value={valores.id_estado} onChange={(event) => cambiarFormulario("inscripcion", event)} />
+          <SelectEstado estados={estadosPara("inscripcion")} value={valores.id_estado} onChange={(event) => cambiarFormulario("inscripcion", event)} />
         </label>
         <label>
           Fecha inscripción

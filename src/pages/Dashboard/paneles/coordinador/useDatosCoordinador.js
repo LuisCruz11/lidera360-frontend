@@ -154,9 +154,17 @@ export function useDatosCoordinador() {
     [tipoPorId]
   );
 
-  const obtenerEstadoPorNombre = useCallback(
-    (nombre) => estados.find((estado) => normalizar(estado.nombre).includes(normalizar(nombre))),
+  const estadosPara = useCallback(
+    (ambito) => estados.filter((estado) => !Array.isArray(estado.aplica_a) || estado.aplica_a.includes(ambito)),
     [estados]
+  );
+
+  const estadoPorDefecto = useCallback(
+    (ambito, nombre) => {
+      const disponibles = estadosPara(ambito);
+      return disponibles.find((estado) => normalizar(estado.nombre) === nombre) || disponibles[0];
+    },
+    [estadosPara]
   );
 
   const personalPorRolNombre = useCallback(
@@ -298,8 +306,6 @@ export function useDatosCoordinador() {
   }, [clientes, inscripciones, obtenerEstado, obtenerNombreTaller, obtenerTipo, progresoPorCliente]);
 
   const abrirModalCrear = (tipo) => {
-    const estadoActivo = obtenerEstadoPorNombre("activo") || estados[0];
-    const estadoIniciado = obtenerEstadoPorNombre("iniciado") || estadoActivo;
     const rolPersonal = roles.find((rol) => !normalizar(rol.nombre).includes("cliente")) || roles[0];
 
     setMensaje("");
@@ -309,17 +315,17 @@ export function useDatosCoordinador() {
       [tipo]: {
         ...formulariosIniciales[tipo],
         ...(tipo === "cliente" && {
-          id_estado: estadoActivo?.id_estado || "",
+          id_estado: estadoPorDefecto("cliente", "activo")?.id_estado || "",
           id_tipo_taller: tiposTaller[0]?.id_tipo_taller || "",
         }),
         ...(tipo === "taller" && {
-          id_estado: estadoIniciado?.id_estado || "",
+          id_estado: estadoPorDefecto("taller", "planificado")?.id_estado || "",
           id_tipo_taller: tiposTaller[0]?.id_tipo_taller || "",
         }),
         ...(tipo === "inscripcion" && {
           cliente_cedula: clientes[0]?.cedula || "",
           id_taller: talleres[0]?.id_taller || "",
-          id_estado: estadoIniciado?.id_estado || "",
+          id_estado: estadoPorDefecto("inscripcion", "iniciado")?.id_estado || "",
           fecha_inscripcion: hoyISO(),
         }),
         ...(tipo === "personal" && {
@@ -604,6 +610,7 @@ export function useDatosCoordinador() {
     obtenerNombreTaller,
     obtenerPersonalAsignado,
     personalPorRolNombre,
+    estadosPara,
     personalCapacitado,
     alternarPersonalCapacitado,
     personalPorCedula,

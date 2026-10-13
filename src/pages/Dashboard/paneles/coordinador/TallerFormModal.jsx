@@ -8,7 +8,7 @@ function TallerFormModal({ datos }) {
     guardarTaller,
     cerrarModal,
     guardando,
-    estados,
+    estadosPara,
     tiposTaller,
     personalPorRolNombre,
     personalCapacitado,
@@ -38,7 +38,7 @@ function TallerFormModal({ datos }) {
         </label>
         <label>
           Estado
-          <SelectEstado estados={estados} value={valores.id_estado} onChange={(event) => cambiarFormulario("taller", event)} />
+          <SelectEstado estados={estadosPara("taller")} value={valores.id_estado} onChange={(event) => cambiarFormulario("taller", event)} />
         </label>
         <label>
           Fecha inicio
