@@ -27,6 +27,12 @@ const REPORTES = [
     descripcion: "Sesiones registradas, asistencias y porcentaje de asistencia de cada participante.",
     filtros: ["taller"],
   },
+  {
+    tipo: "auditoria",
+    titulo: "Auditoría",
+    descripcion: "Todas las acciones registradas: fecha y hora, usuario, rol, módulo, acción y descripción.",
+    filtros: ["fechas"],
+  },
 ];
 
 const filtrosIniciales = { fecha_desde: "", fecha_hasta: "", id_taller: "" };

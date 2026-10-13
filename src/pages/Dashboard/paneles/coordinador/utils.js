@@ -79,6 +79,19 @@ export const formatearFecha = (fecha) => {
   return formatterFecha.format(fechaObjeto).replace(".", "");
 };
 
+const formatterFechaHora = new Intl.DateTimeFormat("es-CO", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+export const formatearFechaHora = (fecha) => {
+  const fechaObjeto = crearFecha(fecha);
+  return fechaObjeto ? formatterFechaHora.format(fechaObjeto).replace(".", "") : "";
+};
+
 export const formatearRangoFechas = (inicio, fin) => {
   if (inicio && fin) return `${formatearFecha(inicio)} - ${formatearFecha(fin)}`;
   return formatearFecha(inicio || fin);

@@ -1039,3 +1039,60 @@
     grid-template-columns: 1fr;
   }
 }
+
+.auditoria-modulo {
+  padding: 10px 12px;
+  border: 1px solid #ded2ee;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #3e2f5e;
+  font: inherit;
+  font-size: 13px;
+}
+
+.auditoria-fecha {
+  white-space: nowrap;
+}
+
+.auditoria-descripcion {
+  min-width: 280px;
+  line-height: 1.4;
+}
+
+.auditoria-descripcion span {
+  display: block;
+  margin-top: 4px;
+  color: #8b6aa7;
+  font-size: 12px;
+}
+
+.auditoria-accion {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f1e8ff;
+  color: #5b2db0;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.auditoria-accion-crear {
+  background: #e7f8ef;
+  color: #127a4b;
+}
+
+.auditoria-accion-eliminar,
+.auditoria-accion-cancelacion {
+  background: #ffecee;
+  color: #c8323b;
+}
+
+.auditoria-accion-actualizar {
+  background: #e8f1ff;
+  color: #1f5fc4;
+}
+
+.auditoria-ver-mas {
+  margin-top: 14px;
+}
