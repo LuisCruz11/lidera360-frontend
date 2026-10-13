@@ -45,8 +45,9 @@ function CambiarPasswordForm({ idUsuario }) {
   };
 
   return (
-    <form className="admin-form" onSubmit={manejarEnvio}>
-      <div className="admin-form-grid">
+    <section className="cliente-perfil-card cliente-password-card">
+      <h3 className="cliente-password-titulo">Cambiar contraseña</h3>
+      <form className="cliente-password-form" onSubmit={manejarEnvio}>
         <label>
           Contraseña actual
           <input
@@ -78,15 +79,13 @@ function CambiarPasswordForm({ idUsuario }) {
             required
           />
         </label>
-      </div>
-      {mensaje && <p className="admin-alert admin-alert-success">{mensaje}</p>}
-      {error && <p className="admin-alert admin-alert-error">{error}</p>}
-      <div className="admin-form-actions">
-        <button type="submit" className="admin-primary-button" disabled={guardando}>
+        <button type="submit" className="cliente-password-boton" disabled={guardando}>
           {guardando ? "Guardando..." : "Actualizar contraseña"}
         </button>
-      </div>
-    </form>
+        {mensaje && <p className="cliente-password-mensaje cliente-password-exito">{mensaje}</p>}
+        {error && <p className="cliente-password-mensaje cliente-password-error">{error}</p>}
+      </form>
+    </section>
   );
 }
 

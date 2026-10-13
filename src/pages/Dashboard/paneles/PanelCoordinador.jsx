@@ -10,7 +10,7 @@ import PersonalPanel from "./coordinador/PersonalPanel";
 import ProgresoPanel from "./coordinador/ProgresoPanel";
 import AuditoriaPanel from "./coordinador/AuditoriaPanel";
 import CalendarioPanel from "./coordinador/CalendarioPanel";
-import MiCuentaPanel from "./coordinador/MiCuentaPanel";
+import MiCuentaPanel from "./MiCuentaPanel";
 import ClienteFormModal from "./coordinador/ClienteFormModal";
 import TallerFormModal from "./coordinador/TallerFormModal";
 import InscripcionFormModal from "./coordinador/InscripcionFormModal";
@@ -90,7 +90,7 @@ function PanelCoordinador({ usuario, onLogout }) {
         {mensaje && <p className="admin-alert admin-alert-success">{mensaje}</p>}
         {error && <p className="admin-alert admin-alert-error">{error}</p>}
         {seccionActiva === "cuenta" ? (
-          <MiCuentaPanel idUsuario={usuario.id_usuario} />
+          <MiCuentaPanel usuario={usuario} />
         ) : (
           <SeccionActiva datos={datos} />
         )}

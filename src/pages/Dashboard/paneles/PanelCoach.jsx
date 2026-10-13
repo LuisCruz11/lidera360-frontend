@@ -1,7 +1,7 @@
 import "../../../styles/admin.css";
 import logo from "../../../assets/images/logo.png";
 import IconoAdmin from "./coordinador/IconoAdmin";
-import CambiarPasswordForm from "./CambiarPasswordForm";
+import MiCuentaPanel from "./MiCuentaPanel";
 import TalleresPanel from "./coach/TalleresPanel";
 import TallerCoachModal from "./coach/TallerCoachModal";
 import { useDatosCoach } from "./coach/useDatosCoach";
@@ -49,14 +49,7 @@ function PanelCoach({ usuario, onLogout }) {
         <div className="admin-user-line">Bienvenido, {usuario.username}</div>
         {error && <p className="admin-alert admin-alert-error">{error}</p>}
         {seccionActiva === "cuenta" ? (
-          <>
-            <header className="admin-header">
-              <h2>Mi Cuenta</h2>
-            </header>
-            <section className="admin-panel-box">
-              <CambiarPasswordForm idUsuario={usuario.id_usuario} />
-            </section>
-          </>
+          <MiCuentaPanel usuario={usuario} />
         ) : (
           <TalleresPanel datos={datos} />
         )}

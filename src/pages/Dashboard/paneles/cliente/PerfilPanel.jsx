@@ -1,4 +1,4 @@
-import CambiarPasswordForm from "./CambiarPasswordForm";
+import CambiarPasswordForm from "../CambiarPasswordForm";
 import { EncabezadoPanel } from "./PanelComponentes";
 import { obtenerIniciales } from "./utils";
 
