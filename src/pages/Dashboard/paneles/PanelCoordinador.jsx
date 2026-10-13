@@ -10,6 +10,7 @@ import PersonalPanel from "./coordinador/PersonalPanel";
 import ProgresoPanel from "./coordinador/ProgresoPanel";
 import AuditoriaPanel from "./coordinador/AuditoriaPanel";
 import CalendarioPanel from "./coordinador/CalendarioPanel";
+import ReportesPanel from "./coordinador/ReportesPanel";
 import MiCuentaPanel from "./MiCuentaPanel";
 import ClienteFormModal from "./coordinador/ClienteFormModal";
 import TallerFormModal from "./coordinador/TallerFormModal";
@@ -24,6 +25,7 @@ const seccionesAdmin = [
   { id: "inscripciones", etiqueta: "Inscripciones", icono: "clipboard" },
   { id: "personal", etiqueta: "Personal", icono: "person" },
   { id: "progreso", etiqueta: "Progreso", icono: "trend" },
+  { id: "reportes", etiqueta: "Reportes", icono: "report" },
   { id: "auditoria", etiqueta: "Auditoría", icono: "history" },
   { id: "calendario", etiqueta: "Calendario", icono: "calendar" },
   { id: "cuenta", etiqueta: "Mi Cuenta", icono: "lock" },
@@ -36,6 +38,7 @@ const paneles = {
   inscripciones: InscripcionesPanel,
   personal: PersonalPanel,
   progreso: ProgresoPanel,
+  reportes: ReportesPanel,
   auditoria: AuditoriaPanel,
   calendario: CalendarioPanel,
 };

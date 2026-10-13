@@ -29,3 +29,6 @@ export const obtenerTiposTaller = () => axiosClient.get("/tipos-taller/");
 export const obtenerProgresosClientes = () => axiosClient.get("/progresos-clientes/");
 export const obtenerTallerPersonal = () => axiosClient.get("/taller-personal/");
 export const obtenerAuditorias = () => axiosClient.get("/auditorias/");
+
+export const descargarReporte = (tipo, filtros = {}) =>
+  axiosClient.get(`/reportes/${tipo}`, { params: filtros, responseType: "blob" });
