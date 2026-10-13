@@ -38,6 +38,7 @@ export const formulariosIniciales = {
     id_estado: "",
     coach: "",
     coordinador: "",
+    personal_capacitado: [],
   },
   inscripcion: {
     cliente_cedula: "",

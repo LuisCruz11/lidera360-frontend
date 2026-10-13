@@ -1,20 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  agregarNotaTaller,
-  obtenerClientes,
-  obtenerDetalleTaller,
-  obtenerEstados,
-  obtenerTalleres,
-  obtenerTiposTaller,
-} from "../../../../api/adminApi";
-import { crearMapa, normalizar } from "./utils";
+  agregarNotaTallerPersonal,
+  obtenerClientesPersonal,
+  obtenerDetalleTallerPersonal,
+  obtenerTalleresPersonal,
+} from "../../../../api/personalCapacitadoApi";
+import { normalizar } from "./utils";
 
 export function useDatosPersonalCapacitado() {
   const [seccionActiva, setSeccionActiva] = useState("talleres");
   const [talleres, setTalleres] = useState([]);
   const [clientes, setClientes] = useState([]);
-  const [estados, setEstados] = useState([]);
-  const [tiposTaller, setTiposTaller] = useState([]);
   const [busqueda, setBusqueda] = useState("");
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
@@ -30,16 +26,9 @@ export function useDatosPersonalCapacitado() {
     setCargando(true);
     setError("");
     try {
-      const [talleresRes, clientesRes, estadosRes, tiposRes] = await Promise.all([
-        obtenerTalleres(),
-        obtenerClientes(),
-        obtenerEstados(),
-        obtenerTiposTaller(),
-      ]);
+      const [talleresRes, clientesRes] = await Promise.all([obtenerTalleresPersonal(), obtenerClientesPersonal()]);
       setTalleres(Array.isArray(talleresRes.data) ? talleresRes.data : []);
       setClientes(Array.isArray(clientesRes.data) ? clientesRes.data : []);
-      setEstados(Array.isArray(estadosRes.data) ? estadosRes.data : []);
-      setTiposTaller(Array.isArray(tiposRes.data) ? tiposRes.data : []);
     } catch (err) {
       setError(err.response?.data?.mensaje || "No se pudo cargar la información.");
     } finally {
@@ -51,38 +40,36 @@ export function useDatosPersonalCapacitado() {
     queueMicrotask(cargarDatos);
   }, [cargarDatos]);
 
-  const estadoPorId = useMemo(() => crearMapa(estados, "id_estado"), [estados]);
-  const tipoPorId = useMemo(() => crearMapa(tiposTaller, "id_tipo_taller"), [tiposTaller]);
-
-  const obtenerEstado = useCallback(
-    (idEstado) => estadoPorId.get(String(idEstado))?.nombre || "",
-    [estadoPorId]
-  );
-
-  const obtenerTipo = useCallback(
-    (idTipo) => tipoPorId.get(String(idTipo))?.nombre || "",
-    [tipoPorId]
-  );
-
   const talleresFiltrados = useMemo(() => {
     const texto = normalizar(busqueda.trim());
     if (!texto) return talleres;
     return talleres.filter((taller) =>
-      [taller.nombre, obtenerTipo(taller.id_tipo_taller), obtenerEstado(taller.id_estado)].some((valor) =>
-        normalizar(valor || "").includes(texto)
-      )
+      [taller.nombre, taller.tipo_taller, taller.estado].some((valor) => normalizar(valor || "").includes(texto))
     );
-  }, [busqueda, obtenerEstado, obtenerTipo, talleres]);
+  }, [busqueda, talleres]);
 
   const clientesFiltrados = useMemo(() => {
     const texto = normalizar(busqueda.trim());
     if (!texto) return clientes;
     return clientes.filter((cliente) =>
-      [cliente.nombres, cliente.apellidos, cliente.cedula, obtenerEstado(cliente.id_estado)].some((valor) =>
+      [cliente.nombres, cliente.apellidos, cliente.cedula, cliente.estado, cliente.talleres].some((valor) =>
         normalizar(String(valor || "")).includes(texto)
       )
     );
-  }, [busqueda, clientes, obtenerEstado]);
+  }, [busqueda, clientes]);
+
+  const estadisticas = useMemo(
+    () => ({
+      totalTalleres: talleres.length,
+      totalParticipantes: talleres.reduce((total, taller) => total + Number(taller.total_inscritos || 0), 0),
+    }),
+    [talleres]
+  );
+
+  const recargarDetalle = async (idTaller) => {
+    const respuesta = await obtenerDetalleTallerPersonal(idTaller);
+    setDetalleTaller(respuesta.data);
+  };
 
   const abrirDetalleTaller = async (taller) => {
     setTallerSeleccionado(taller);
@@ -91,8 +78,7 @@ export function useDatosPersonalCapacitado() {
     setNota("");
     setCargandoDetalle(true);
     try {
-      const respuesta = await obtenerDetalleTaller(taller.id_taller);
-      setDetalleTaller(respuesta.data);
+      await recargarDetalle(taller.id_taller);
     } catch (err) {
       setErrorDetalle(err.response?.data?.mensaje || "No se pudo cargar el detalle del taller.");
     } finally {
@@ -114,10 +100,9 @@ export function useDatosPersonalCapacitado() {
     setGuardandoNota(true);
     setErrorDetalle("");
     try {
-      await agregarNotaTaller(tallerSeleccionado.id_taller, { descripcion: nota.trim() });
+      await agregarNotaTallerPersonal(tallerSeleccionado.id_taller, { descripcion: nota.trim() });
       setNota("");
-      const respuesta = await obtenerDetalleTaller(tallerSeleccionado.id_taller);
-      setDetalleTaller(respuesta.data);
+      await recargarDetalle(tallerSeleccionado.id_taller);
     } catch (err) {
       setErrorDetalle(err.response?.data?.mensaje || "No se pudo agregar la nota.");
     } finally {
@@ -134,8 +119,7 @@ export function useDatosPersonalCapacitado() {
     error,
     talleresFiltrados,
     clientesFiltrados,
-    obtenerEstado,
-    obtenerTipo,
+    estadisticas,
     tallerSeleccionado,
     detalleTaller,
     cargandoDetalle,
@@ -146,5 +130,6 @@ export function useDatosPersonalCapacitado() {
     abrirDetalleTaller,
     cerrarDetalleTaller,
     enviarNota,
+    recargarDetalle,
   };
 }

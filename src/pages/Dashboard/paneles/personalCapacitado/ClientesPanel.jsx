@@ -3,16 +3,16 @@ import { BadgeEstado, EstadoVacio } from "../coordinador/PanelComponentes";
 import { nombreCompleto } from "./utils";
 
 function ClientesPanel({ datos }) {
-  const { clientesFiltrados, busqueda, setBusqueda, obtenerEstado, cargando } = datos;
+  const { clientesFiltrados, busqueda, setBusqueda, cargando } = datos;
 
   return (
     <>
       <header className="admin-header admin-header-actions">
-        <h2>Clientes</h2>
+        <h2>Mis Participantes</h2>
         <div className="admin-actions">
           <label className="admin-search">
             <IconoAdmin tipo="search" />
-            <input value={busqueda} onChange={(event) => setBusqueda(event.target.value)} placeholder="Buscar clientes..." />
+            <input value={busqueda} onChange={(event) => setBusqueda(event.target.value)} placeholder="Buscar participantes..." />
           </label>
         </div>
       </header>
@@ -21,24 +21,32 @@ function ClientesPanel({ datos }) {
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Cédula</th>
-              <th>Nombre</th>
-              <th>Correo</th>
+              <th>Participante</th>
+              <th>Contacto</th>
+              <th>Talleres</th>
               <th>Estado</th>
             </tr>
           </thead>
           <tbody>
             {clientesFiltrados.map((cliente) => (
               <tr key={cliente.cedula}>
-                <td>{cliente.cedula}</td>
-                <td>{nombreCompleto(cliente)}</td>
-                <td>{cliente.correo || "Sin correo"}</td>
-                <td><BadgeEstado estado={obtenerEstado(cliente.id_estado)} /></td>
+                <td>
+                  <strong>{nombreCompleto(cliente)}</strong>
+                  <span>{cliente.cedula}</span>
+                </td>
+                <td>
+                  <strong>{cliente.correo || "Sin correo"}</strong>
+                  <span>{cliente.telefono || "Sin teléfono"}</span>
+                </td>
+                <td>{cliente.talleres || "Sin talleres"}</td>
+                <td><BadgeEstado estado={cliente.estado} /></td>
               </tr>
             ))}
           </tbody>
         </table>
-        {clientesFiltrados.length === 0 && <EstadoVacio cargando={cargando} texto="No hay clientes para mostrar." />}
+        {clientesFiltrados.length === 0 && (
+          <EstadoVacio cargando={cargando} texto="No hay participantes inscritos en tus talleres." />
+        )}
       </section>
     </>
   );

@@ -2,8 +2,19 @@ import SelectEstado from "./SelectEstado";
 import { nombreCompleto } from "./utils";
 
 function TallerFormModal({ datos }) {
-  const { formularios, cambiarFormulario, guardarTaller, cerrarModal, guardando, estados, tiposTaller, personalPorRolNombre, modoModal } =
-    datos;
+  const {
+    formularios,
+    cambiarFormulario,
+    guardarTaller,
+    cerrarModal,
+    guardando,
+    estados,
+    tiposTaller,
+    personalPorRolNombre,
+    personalCapacitado,
+    alternarPersonalCapacitado,
+    modoModal,
+  } = datos;
   const valores = formularios.taller;
   const editando = modoModal === "editar";
 
@@ -65,6 +76,28 @@ function TallerFormModal({ datos }) {
             ))}
           </select>
         </label>
+        <fieldset className="admin-form-full taller-personal-capacitado">
+          <legend>Personal capacitado</legend>
+          {personalCapacitado.length === 0 ? (
+            <p className="admin-form-hint">No hay personal con rol Personal Capacitado. Créalo en la sección Personal.</p>
+          ) : (
+            <div className="taller-personal-opciones">
+              {personalCapacitado.map((persona) => {
+                const cedula = String(persona.cedula);
+                return (
+                  <label key={`pc-${cedula}`} className="taller-personal-opcion">
+                    <input
+                      type="checkbox"
+                      checked={(valores.personal_capacitado || []).includes(cedula)}
+                      onChange={() => alternarPersonalCapacitado(cedula)}
+                    />
+                    {nombreCompleto(persona)}
+                  </label>
+                );
+              })}
+            </div>
+          )}
+        </fieldset>
       </div>
       <div className="admin-form-actions">
         <button type="button" onClick={cerrarModal}>Cancelar</button>

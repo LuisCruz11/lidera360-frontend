@@ -870,3 +870,88 @@
   font-size: 12px;
   font-weight: 700;
 }
+
+.taller-personal-capacitado {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #ede6f5;
+  border-radius: 12px;
+}
+
+.taller-personal-capacitado legend {
+  padding: 0 6px;
+  color: #5b4a80;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.taller-personal-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.admin-form .taller-personal-opcion {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.admin-form .taller-personal-opcion input {
+  width: auto;
+}
+
+.pc-fecha-sesion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #5b4a80;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pc-fecha-sesion input {
+  padding: 7px 10px;
+  border: 1px solid #ded2ee;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.pc-asistencia-resumen {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #6b558f;
+  font-size: 13px;
+}
+
+.pc-asistencia-resumen div {
+  display: flex;
+  gap: 6px;
+}
+
+.pc-tabla-asistencia,
+.pc-tabla-participantes {
+  min-width: 520px;
+}
+
+.pc-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #3e2f5e;
+  cursor: pointer;
+}
+
+.coach-tabla .pc-check input {
+  width: 18px;
+  min-width: 0;
+  height: 18px;
+  accent-color: #18a566;
+}

@@ -9,12 +9,16 @@ const FILTROS = [
   { id: "actividad", etiqueta: "Actividades" },
   { id: "evaluacion", etiqueta: "Evaluaciones" },
   { id: "avance_nivel", etiqueta: "Avances de nivel" },
+  { id: "nota", etiqueta: "Apoyo" },
+  { id: "asistencia", etiqueta: "Asistencia" },
   { id: "otros", etiqueta: "Otros" },
 ];
 
+const TIPOS = ["actividad", "evaluacion", "avance_nivel", "nota", "asistencia"];
+
 const tipoRegistro = (accion = "") => {
   const valor = normalizar(accion);
-  return ["actividad", "evaluacion", "avance_nivel"].includes(valor) ? valor : "otros";
+  return TIPOS.includes(valor) ? valor : "otros";
 };
 
 function BitacoraCoach({ notas }) {
@@ -23,7 +27,7 @@ function BitacoraCoach({ notas }) {
   const [visibles, setVisibles] = useState(POR_PAGINA);
 
   const conteos = useMemo(() => {
-    const totales = { todos: notas.length, actividad: 0, evaluacion: 0, avance_nivel: 0, otros: 0 };
+    const totales = { todos: notas.length, otros: 0, ...Object.fromEntries(TIPOS.map((tipo) => [tipo, 0])) };
     notas.forEach((nota) => {
       totales[tipoRegistro(nota.accion)] += 1;
     });

@@ -8,8 +8,8 @@ import TallerDetalleModal from "./personalCapacitado/TallerDetalleModal";
 import { useDatosPersonalCapacitado } from "./personalCapacitado/useDatosPersonalCapacitado";
 
 const secciones = [
-  { id: "talleres", etiqueta: "Talleres", icono: "cap" },
-  { id: "clientes", etiqueta: "Clientes", icono: "users" },
+  { id: "talleres", etiqueta: "Mis Talleres", icono: "cap" },
+  { id: "clientes", etiqueta: "Mis Participantes", icono: "users" },
   { id: "cuenta", etiqueta: "Mi Cuenta", icono: "lock" },
 ];
 

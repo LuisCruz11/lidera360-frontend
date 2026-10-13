@@ -167,6 +167,21 @@ export function useDatosCoordinador() {
     [obtenerRol, personal]
   );
 
+  const personalCapacitado = useMemo(
+    () => personal.filter((persona) => normalizar(obtenerRol(persona.id_rol)).includes("personal capacitado")),
+    [obtenerRol, personal]
+  );
+
+  const alternarPersonalCapacitado = (cedula) => {
+    setFormularios((actuales) => {
+      const seleccion = actuales.taller.personal_capacitado || [];
+      const nuevaSeleccion = seleccion.includes(cedula)
+        ? seleccion.filter((valor) => valor !== cedula)
+        : [...seleccion, cedula];
+      return { ...actuales, taller: { ...actuales.taller, personal_capacitado: nuevaSeleccion } };
+    });
+  };
+
   const obtenerNombreCliente = useCallback(
     (cedula) => nombreCompleto(clientePorCedula.get(String(cedula)) || { cedula }),
     [clientePorCedula]
@@ -353,6 +368,9 @@ export function useDatosCoordinador() {
           id_estado: registro.id_estado ?? "",
           coach: coach?.cedula_personal || "",
           coordinador: coordinador?.cedula_personal || "",
+          personal_capacitado: asignaciones
+            .filter((asignacion) => normalizar(asignacion.rol_en_taller).includes("personal capacitado"))
+            .map((asignacion) => String(asignacion.cedula_personal)),
         },
       }));
       setIdEnEdicion(registro.id_taller);
@@ -453,6 +471,10 @@ export function useDatosCoordinador() {
     const asignaciones = [
       data.coach && { cedula_personal: data.coach, rol_en_taller: "Coach" },
       data.coordinador && { cedula_personal: data.coordinador, rol_en_taller: "Coordinador" },
+      ...(data.personal_capacitado || []).map((cedula) => ({
+        cedula_personal: cedula,
+        rol_en_taller: "Personal Capacitado",
+      })),
     ].filter(Boolean);
 
     const payload = {
@@ -582,6 +604,8 @@ export function useDatosCoordinador() {
     obtenerNombreTaller,
     obtenerPersonalAsignado,
     personalPorRolNombre,
+    personalCapacitado,
+    alternarPersonalCapacitado,
     personalPorCedula,
     clientesFiltrados,
     talleresFiltrados,

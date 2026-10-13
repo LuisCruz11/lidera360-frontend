@@ -17,6 +17,7 @@ const ETIQUETAS_REGISTRO = {
   nota: "Nota de apoyo",
   avance_nivel: "Avance de nivel",
   cancelacion: "Cancelación",
+  asistencia: "Asistencia",
 };
 
 export const etiquetaRegistro = (accion = "") => ETIQUETAS_REGISTRO[normalizar(accion)] || "Registro";
