@@ -618,3 +618,52 @@
 .admin-primary-button.cliente-boton-peligro {
   background: #d93a44;
 }
+
+.cliente-inscripcion-acciones {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cliente-certificado-boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid #c9b2ee;
+  border-radius: 6px;
+  background: #f6f0ff;
+  color: #6a2fd0;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.cliente-certificado-boton:hover {
+  background: #ede2ff;
+}
+
+.cliente-certificado-boton:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.cliente-certificado-boton svg {
+  width: 14px;
+  height: 14px;
+}
+
+.cliente-certificado-boton:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.cliente-certificado-pronto {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #e4d6fb;
+  color: #5b2db0;
+  font-size: 10px;
+  font-weight: 800;
+}

@@ -49,6 +49,12 @@ function IconoCliente({ tipo }) {
         <path d="M14 8l4 4-4 4M18 12H9" />
       </>
     ),
+    download: (
+      <>
+        <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5" />
+        <path d="M5 19h14" />
+      </>
+    ),
   };
 
   return (

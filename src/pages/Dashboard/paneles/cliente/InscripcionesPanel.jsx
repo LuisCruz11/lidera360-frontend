@@ -43,9 +43,24 @@ function InscripcionesPanel({ datos }) {
                     <h3>{taller.nombre}</h3>
                     {taller.fecha_inscripcion && <p>Inscrito: {formatearFecha(taller.fecha_inscripcion, "larga")}</p>}
                   </div>
-                  {taller.estado && (
-                    <span className={`cliente-chip cliente-chip-${grupo}`}>{obtenerEtiquetaEstado(taller.estado)}</span>
-                  )}
+                  <div className="cliente-inscripcion-acciones">
+                    {grupo === "aprobado" && (
+                      // Deshabilitado hasta recibir la plantilla oficial del certificado.
+                      <button
+                        type="button"
+                        className="cliente-certificado-boton"
+                        disabled
+                        title="La descarga del certificado estará disponible próximamente"
+                      >
+                        <IconoCliente tipo="download" />
+                        Certificado
+                        <span className="cliente-certificado-pronto">Descarga</span>
+                      </button>
+                    )}
+                    {taller.estado && (
+                      <span className={`cliente-chip cliente-chip-${grupo}`}>{obtenerEtiquetaEstado(taller.estado)}</span>
+                    )}
+                  </div>
                 </article>
               );
             })}

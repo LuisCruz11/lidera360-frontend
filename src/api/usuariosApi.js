@@ -29,3 +29,7 @@ export const cancelarInscripcionCliente = (cedula, idInscripcion) => {
 export const actualizarContactoCliente = (cedula, data) => {
   return axiosClient.put(`/clientes/${cedula}/perfil`, data);
 };
+
+export const descargarCertificadoCliente = (cedula, idInscripcion) => {
+  return axiosClient.get(`/clientes/${cedula}/certificados/${idInscripcion}`, { responseType: "blob" });
+};
