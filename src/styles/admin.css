@@ -710,39 +710,133 @@
   }
 }
 
-.coach-participante {
+.admin-modal.coach-modal {
+  width: min(1040px, 100%);
+}
+
+.coach-pestanas {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ede6f5;
+}
+
+.coach-pestana {
+  padding: 10px 16px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: #77638e;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.coach-pestana-activa {
+  border-bottom-color: #7a3ce0;
+  color: #2b123f;
+}
+
+.coach-participantes-toolbar {
+  display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
-.coach-participante-info {
-  display: grid;
-  gap: 2px;
-  min-width: 140px;
+.coach-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.coach-participante-info small {
+.coach-filtro {
+  padding: 6px 12px;
+  border: 1px solid #ded2ee;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #5b4477;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.coach-filtro span {
+  margin-left: 4px;
+  color: #8b6aa7;
+}
+
+.coach-filtro-activo {
+  border-color: #7a3ce0;
+  background: #7a3ce0;
+  color: #ffffff;
+}
+
+.coach-filtro-activo span {
+  color: #e8dcff;
+}
+
+.coach-buscador {
+  flex: 1 1 220px;
+  max-width: 300px;
+}
+
+.coach-tabla-scroll {
+  max-height: min(52vh, 480px);
+  overflow: auto;
+  border: 1px solid #ede6f5;
+  border-radius: 12px;
+}
+
+.coach-tabla {
+  min-width: 760px;
+}
+
+.coach-tabla th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #faf6ff;
+}
+
+.coach-tabla th,
+.coach-tabla td {
+  padding: 10px 12px;
+}
+
+.coach-tabla td strong,
+.coach-tabla td span:not(.admin-badge) {
+  display: block;
+}
+
+.coach-tabla td span:not(.admin-badge) {
   color: #8b6aa7;
   font-size: 11px;
 }
 
-.coach-evaluacion {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  flex-basis: 100%;
-}
-
-.coach-evaluacion select,
-.coach-evaluacion input {
-  flex: 1 1 160px;
-  min-width: 0;
-  padding: 8px 10px;
+.coach-tabla select,
+.coach-tabla input {
+  width: 100%;
+  min-width: 130px;
+  padding: 7px 10px;
   border: 1px solid #ded2ee;
   border-radius: 8px;
   font: inherit;
-  font-weight: 500;
+  font-size: 13px;
 }
 
-.coach-evaluacion .admin-primary-button {
-  flex: 0 0 auto;
+.coach-evaluar {
+  white-space: nowrap;
+}
+
+.coach-sin-resultados {
+  padding: 16px;
+}
+
+.coach-actividad-form {
+  margin-bottom: 18px;
 }
