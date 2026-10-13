@@ -152,20 +152,6 @@
   cursor: pointer;
 }
 
-.registro-secondary-button {
-  grid-column: 1 / -1;
-  min-height: 44px;
-  border: 0;
-  border-radius: 7px;
-  background: #f3edff;
-  color: #5d3399;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 6px;
-}
-
-.registro-secondary-button:hover,
 .registro-login-link:hover {
   opacity: 0.9;
 }

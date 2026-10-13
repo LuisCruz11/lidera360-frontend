@@ -22,7 +22,7 @@ const valoresSexo = {
   Otro: "Otro",
 };
 
-function RegistroUsuario({ onVolverInicio, onLoginClick }) {
+function RegistroUsuario({ onLoginClick }) {
   const [formulario, setFormulario] = useState(datosIniciales);
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -264,10 +264,6 @@ function RegistroUsuario({ onVolverInicio, onLoginClick }) {
 
         <button className="registro-button" type="submit" disabled={cargando}>
           {cargando ? "Registrando..." : "Registrarse"}
-        </button>
-
-        <button className="registro-secondary-button" type="button" onClick={onVolverInicio}>
-          Ir a la página principal
         </button>
 
         <p className="registro-login-text">

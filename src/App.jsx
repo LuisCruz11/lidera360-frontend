@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Home from "./pages/Home";
 import RegistroUsuario from "./pages/RegistroUsuario";
 import LoginUsuario from "./pages/LoginUsuario";
 import RecuperarPassword from "./pages/RecuperarPassword";
@@ -12,12 +11,11 @@ const tokenRestablecer = new URLSearchParams(window.location.search).get("restab
 const limpiarUrl = () => window.history.replaceState(null, "", window.location.pathname);
 
 function App() {
-  const [paginaActual, setPaginaActual] = useState(tokenRestablecer ? "restablecer" : "home");
+  const [paginaActual, setPaginaActual] = useState(tokenRestablecer ? "restablecer" : "login");
   const [usuarioLogueado, setUsuarioLogueado] = useState(null);
 
   const irARegistro = () => setPaginaActual("registro");
   const irALogin = () => setPaginaActual("login");
-  const irAHome = () => setPaginaActual("home");
   const irARecuperar = () => {
     limpiarUrl();
     setPaginaActual("recuperar");
@@ -36,15 +34,12 @@ function App() {
     setUsuarioLogueado(null);
     localStorage.removeItem("usuario");
     localStorage.removeItem("token");
-    setPaginaActual("home");
+    setPaginaActual("login");
   };
 
   if (paginaActual === "registro") {
     return (
-      <RegistroUsuario 
-        onVolverInicio={irAHome}
-        onLoginClick={irALogin}
-      />
+      <RegistroUsuario onLoginClick={irALogin} />
     );
   }
 
@@ -62,17 +57,6 @@ function App() {
     );
   }
 
-  if (paginaActual === "login") {
-    return (
-      <LoginUsuario 
-        onVolverInicio={irAHome}
-        onLoginExito={manejarLoginExito}
-        onRegistroClick={irARegistro}
-        onOlvidePassword={irARecuperar}
-      />
-    );
-  }
-
   if (paginaActual === "dashboard" && usuarioLogueado) {
     return (
       <Dashboard 
@@ -83,9 +67,10 @@ function App() {
   }
 
   return (
-    <Home 
+    <LoginUsuario
+      onLoginExito={manejarLoginExito}
       onRegistroClick={irARegistro}
-      onLoginClick={irALogin}
+      onOlvidePassword={irARecuperar}
     />
   );
 }

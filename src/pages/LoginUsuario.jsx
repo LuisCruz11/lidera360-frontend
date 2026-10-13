@@ -8,7 +8,7 @@ const datosIniciales = {
   password: "",
 };
 
-function LoginUsuario({ onVolverInicio, onLoginExito, onRegistroClick, onOlvidePassword }) {
+function LoginUsuario({ onLoginExito, onRegistroClick, onOlvidePassword }) {
   const [formulario, setFormulario] = useState(datosIniciales);
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -83,10 +83,6 @@ function LoginUsuario({ onVolverInicio, onLoginExito, onRegistroClick, onOlvideP
 
         <button className="login-button" type="submit" disabled={cargando}>
           {cargando ? "Iniciando sesión..." : "Iniciar sesión"}
-        </button>
-
-        <button className="login-secondary-button" type="button" onClick={onVolverInicio}>
-          Ir a la página principal
         </button>
 
         <p className="login-register-text">
