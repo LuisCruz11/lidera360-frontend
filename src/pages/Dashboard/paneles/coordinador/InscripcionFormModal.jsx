@@ -60,7 +60,7 @@ function InscripcionFormModal({ datos }) {
         </label>
       </div>
       <div className="admin-form-actions">
-        <button type="button" onClick={cerrarModal}>Cancelar</button>
+        <button type="button" className="admin-primary-button" onClick={cerrarModal}>Cancelar</button>
         <button type="submit" className="admin-primary-button" disabled={guardando}>
           {guardando ? "Guardando..." : editando ? "Guardar cambios" : "Inscribir cliente"}
         </button>
