@@ -149,7 +149,6 @@ function ReportesPanel({ datos }) {
     <>
       <header className="admin-header">
         <h2>Reportes</h2>
-        <p>Descarga la información del programa en Excel para analizarla, filtrarla o compartirla.</p>
       </header>
 
       <section className="reporte-grid">
