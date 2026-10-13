@@ -10,7 +10,27 @@ export function EncabezadoPanel({ titulo, subtitulo }) {
   );
 }
 
-export function TarjetaTaller({ taller }) {
+export function EstadoVacioCliente({ cargando, titulo, texto, accion }) {
+  return (
+    <section className="cliente-vacio">
+      {cargando ? (
+        <p>Cargando información...</p>
+      ) : (
+        <>
+          <h3>{titulo}</h3>
+          <p>{texto}</p>
+          {accion && (
+            <button type="button" className="cliente-password-boton" onClick={accion.onClick}>
+              {accion.etiqueta}
+            </button>
+          )}
+        </>
+      )}
+    </section>
+  );
+}
+
+export function TarjetaTaller({ taller, onCancelar }) {
   return (
     <article className="cliente-taller-card">
       <div className="cliente-taller-top">
@@ -47,6 +67,11 @@ export function TarjetaTaller({ taller }) {
         <span className="cliente-inscrito-fecha">
           Inscrito el {formatearFecha(taller.fecha_inscripcion, "larga")}
         </span>
+      )}
+      {onCancelar && taller.puede_cancelar && (
+        <button type="button" className="cliente-cancelar-boton" onClick={() => onCancelar(taller)}>
+          Cancelar inscripción
+        </button>
       )}
     </article>
   );

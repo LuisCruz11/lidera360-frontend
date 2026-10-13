@@ -1,14 +1,21 @@
 import IconoCliente from "./IconoCliente";
-import { EncabezadoPanel } from "./PanelComponentes";
+import { EncabezadoPanel, EstadoVacioCliente } from "./PanelComponentes";
 import { formatearFecha, obtenerEtiquetaEstado, obtenerGrupoEstado } from "./utils";
 
 function InscripcionesPanel({ datos }) {
-  const { talleresInscritos, estadisticas } = datos;
+  const { talleresInscritos, estadisticas, cargando, setSeccionActiva } = datos;
 
   return (
     <>
       <EncabezadoPanel titulo="Mis Inscripciones" subtitulo="Historial de talleres a los que te has inscrito" />
-      {talleresInscritos.length > 0 && (
+      {talleresInscritos.length === 0 ? (
+        <EstadoVacioCliente
+          cargando={cargando}
+          titulo="No tienes inscripciones todavía"
+          texto="Cuando te inscribas en un taller, aquí verás su historial y el resultado de tu evaluación."
+          accion={{ etiqueta: "Ver calendario", onClick: () => setSeccionActiva("calendario") }}
+        />
+      ) : (
         <>
           <section className="cliente-stats-grid" aria-label="Resumen de inscripciones">
             <article className="cliente-stat-card cliente-stat-aprobado">

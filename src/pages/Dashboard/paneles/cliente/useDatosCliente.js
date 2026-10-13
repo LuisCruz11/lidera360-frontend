@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { inscribirClienteTaller, obtenerPanelCliente } from "../../../../api/usuariosApi";
+import {
+  actualizarContactoCliente,
+  cancelarInscripcionCliente,
+  inscribirClienteTaller,
+  obtenerPanelCliente,
+} from "../../../../api/usuariosApi";
 import { construirCeldasCalendario, crearFecha, normalizarTaller, obtenerGrupoEstado } from "./utils";
 
 export function useDatosCliente(usuario) {
@@ -9,7 +14,15 @@ export function useDatosCliente(usuario) {
   const [talleresInscritos, setTalleresInscritos] = useState([]);
   const [talleresDisponibles, setTalleresDisponibles] = useState([]);
   const [desplazamientoMes, setDesplazamientoMes] = useState(0);
-  const [inscribiendoId, setInscribiendoId] = useState(null);
+  const [cargando, setCargando] = useState(true);
+  const [mensaje, setMensaje] = useState("");
+  const [error, setError] = useState("");
+
+  const [tallerPorInscribir, setTallerPorInscribir] = useState(null);
+  const [inscribiendo, setInscribiendo] = useState(false);
+  const [tallerPorCancelar, setTallerPorCancelar] = useState(null);
+  const [cancelando, setCancelando] = useState(false);
+  const [guardandoContacto, setGuardandoContacto] = useState(false);
 
   const cargarPanelCliente = useCallback(async (cedulaCliente, estaActivo = () => true) => {
     try {
@@ -21,12 +34,11 @@ export function useDatosCliente(usuario) {
       setProgreso(panel.progreso || null);
       setTalleresInscritos((panel.historial_inscripciones || []).map(normalizarTaller));
       setTalleresDisponibles((panel.talleres_disponibles || []).map(normalizarTaller));
-    } catch {
+    } catch (err) {
       if (!estaActivo()) return;
-      setCliente(null);
-      setProgreso(null);
-      setTalleresInscritos([]);
-      setTalleresDisponibles([]);
+      setError(err.response?.data?.mensaje || "No se pudo cargar tu información. Intenta de nuevo más tarde.");
+    } finally {
+      if (estaActivo()) setCargando(false);
     }
   }, []);
 
@@ -46,18 +58,68 @@ export function useDatosCliente(usuario) {
     };
   }, [cargarPanelCliente, usuario.cedula_cliente]);
 
-  const manejarInscripcion = async (idTaller) => {
-    const cedulaCliente = usuario.cedula_cliente;
-    if (!cedulaCliente || !idTaller || inscribiendoId) return;
+  const limpiarAvisos = () => {
+    setMensaje("");
+    setError("");
+  };
 
-    setInscribiendoId(idTaller);
+  const cambiarSeccion = (seccion) => {
+    limpiarAvisos();
+    setSeccionActiva(seccion);
+  };
+
+  const confirmarInscripcion = async () => {
+    const cedulaCliente = usuario.cedula_cliente;
+    if (!cedulaCliente || !tallerPorInscribir || inscribiendo) return;
+
+    setInscribiendo(true);
+    limpiarAvisos();
     try {
-      await inscribirClienteTaller(cedulaCliente, idTaller);
+      await inscribirClienteTaller(cedulaCliente, tallerPorInscribir.id_taller);
+      setMensaje(`Te inscribiste en ${tallerPorInscribir.nombre}.`);
       await cargarPanelCliente(cedulaCliente);
-    } catch {
-      // Si el backend rechaza la inscripción, se conserva la información actual.
+    } catch (err) {
+      setError(err.response?.data?.mensaje || "No se pudo completar la inscripción.");
     } finally {
-      setInscribiendoId(null);
+      setInscribiendo(false);
+      setTallerPorInscribir(null);
+    }
+  };
+
+  const confirmarCancelacion = async () => {
+    const cedulaCliente = usuario.cedula_cliente;
+    if (!cedulaCliente || !tallerPorCancelar?.id_inscripcion || cancelando) return;
+
+    setCancelando(true);
+    limpiarAvisos();
+    try {
+      await cancelarInscripcionCliente(cedulaCliente, tallerPorCancelar.id_inscripcion);
+      setMensaje(`Cancelaste tu inscripción en ${tallerPorCancelar.nombre}.`);
+      await cargarPanelCliente(cedulaCliente);
+    } catch (err) {
+      setError(err.response?.data?.mensaje || "No se pudo cancelar la inscripción.");
+    } finally {
+      setCancelando(false);
+      setTallerPorCancelar(null);
+    }
+  };
+
+  const guardarContacto = async (datosContacto) => {
+    const cedulaCliente = usuario.cedula_cliente;
+    if (!cedulaCliente || guardandoContacto) return false;
+
+    setGuardandoContacto(true);
+    limpiarAvisos();
+    try {
+      await actualizarContactoCliente(cedulaCliente, datosContacto);
+      setMensaje("Datos de contacto actualizados.");
+      await cargarPanelCliente(cedulaCliente);
+      return true;
+    } catch (err) {
+      setError(err.response?.data?.mensaje || "No se pudieron actualizar tus datos.");
+      return false;
+    } finally {
+      setGuardandoContacto(false);
     }
   };
 
@@ -80,30 +142,59 @@ export function useDatosCliente(usuario) {
     [talleresInscritos]
   );
 
-  const fechaBaseCalendario = useMemo(() => {
-    const primerTaller = talleresDisponibles.find((taller) => taller.fecha_calendario || taller.fecha_inicio);
-    const fecha = crearFecha(primerTaller?.fecha_calendario || primerTaller?.fecha_inicio) || new Date();
-    return new Date(fecha.getFullYear(), fecha.getMonth() + desplazamientoMes, 1);
-  }, [desplazamientoMes, talleresDisponibles]);
-
-  const celdasCalendario = useMemo(
-    () => construirCeldasCalendario(fechaBaseCalendario, talleresDisponibles),
-    [fechaBaseCalendario, talleresDisponibles]
+  const eventosCalendario = useMemo(
+    () => [
+      ...talleresEnCurso.map((taller) => ({ ...taller, inscrito: true })),
+      ...talleresDisponibles.map((taller) => ({ ...taller, inscrito: false })),
+    ],
+    [talleresDisponibles, talleresEnCurso]
   );
 
-  const nivelActual = progreso?.tipo_taller || talleresDisponibles[0]?.categoria || "";
+  // El calendario abre en el mes del próximo taller vigente (o en el mes actual si no hay ninguno).
+  const fechaBaseCalendario = useMemo(() => {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const fechasVigentes = eventosCalendario
+      .map((taller) => {
+        const inicio = crearFecha(taller.fecha_inicio);
+        const fin = crearFecha(taller.fecha_fin) || inicio;
+        if (!inicio || fin < hoy) return null;
+        return inicio > hoy ? inicio : hoy;
+      })
+      .filter(Boolean);
+    const fecha = fechasVigentes.length > 0 ? new Date(Math.min(...fechasVigentes)) : hoy;
+    return new Date(fecha.getFullYear(), fecha.getMonth() + desplazamientoMes, 1);
+  }, [desplazamientoMes, eventosCalendario]);
+
+  const celdasCalendario = useMemo(
+    () => construirCeldasCalendario(fechaBaseCalendario, eventosCalendario),
+    [fechaBaseCalendario, eventosCalendario]
+  );
+
+  const nivelActual = progreso?.tipo_taller || "";
 
   return {
     usuario,
     seccionActiva,
-    setSeccionActiva,
+    setSeccionActiva: cambiarSeccion,
+    cargando,
+    mensaje,
+    error,
     cliente,
     talleresInscritos,
     talleresDisponibles,
     desplazamientoMes,
     setDesplazamientoMes,
-    inscribiendoId,
-    manejarInscripcion,
+    tallerPorInscribir,
+    setTallerPorInscribir,
+    inscribiendo,
+    confirmarInscripcion,
+    tallerPorCancelar,
+    setTallerPorCancelar,
+    cancelando,
+    confirmarCancelacion,
+    guardandoContacto,
+    guardarContacto,
     nombreCliente,
     talleresEnCurso,
     estadisticas,

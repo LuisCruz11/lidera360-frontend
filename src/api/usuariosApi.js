@@ -21,3 +21,11 @@ export const inscribirClienteTaller = (cedula, idTaller) => {
     id_taller: idTaller,
   });
 };
+
+export const cancelarInscripcionCliente = (cedula, idInscripcion) => {
+  return axiosClient.delete(`/clientes/${cedula}/inscripciones/${idInscripcion}`);
+};
+
+export const actualizarContactoCliente = (cedula, data) => {
+  return axiosClient.put(`/clientes/${cedula}/perfil`, data);
+};

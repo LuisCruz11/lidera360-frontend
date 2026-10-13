@@ -88,6 +88,7 @@ export function normalizarTaller(taller) {
     fecha_inscripcion: taller.fecha_inscripcion || null,
     id_tipo_taller: taller.id_tipo_taller,
     nivel: taller.nivel || obtenerNivel(categoria),
+    puede_cancelar: Boolean(taller.puede_cancelar),
   };
 }
 

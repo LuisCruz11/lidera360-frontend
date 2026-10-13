@@ -5,6 +5,7 @@ import MisTalleresPanel from "./cliente/MisTalleresPanel";
 import InscripcionesPanel from "./cliente/InscripcionesPanel";
 import CalendarioPanel from "./cliente/CalendarioPanel";
 import PerfilPanel from "./cliente/PerfilPanel";
+import ModalConfirmacion from "./cliente/ModalConfirmacion";
 import { useDatosCliente } from "./cliente/useDatosCliente";
 import { obtenerIniciales, seccionesCliente } from "./cliente/utils";
 
@@ -17,7 +18,21 @@ const paneles = {
 
 function PanelCliente({ usuario, onLogout }) {
   const datos = useDatosCliente(usuario);
-  const { seccionActiva, setSeccionActiva, nombreCliente } = datos;
+  const {
+    seccionActiva,
+    setSeccionActiva,
+    nombreCliente,
+    mensaje,
+    error,
+    tallerPorInscribir,
+    setTallerPorInscribir,
+    inscribiendo,
+    confirmarInscripcion,
+    tallerPorCancelar,
+    setTallerPorCancelar,
+    cancelando,
+    confirmarCancelacion,
+  } = datos;
 
   const SeccionActiva = paneles[seccionActiva] || MisTalleresPanel;
 
@@ -62,8 +77,30 @@ function PanelCliente({ usuario, onLogout }) {
       </aside>
 
       <section className="cliente-panel">
+        {mensaje && <p className="cliente-alerta cliente-alerta-exito">{mensaje}</p>}
+        {error && <p className="cliente-alerta cliente-alerta-error">{error}</p>}
         <SeccionActiva datos={datos} />
       </section>
+
+      <ModalConfirmacion
+        titulo="Confirmar inscripción"
+        taller={tallerPorInscribir}
+        descripcion="¿Quieres inscribirte en este taller? Podrás cancelar la inscripción antes de que comience."
+        textoConfirmar="Inscribirme"
+        procesando={inscribiendo}
+        onConfirmar={confirmarInscripcion}
+        onCerrar={() => setTallerPorInscribir(null)}
+      />
+      <ModalConfirmacion
+        titulo="Cancelar inscripción"
+        taller={tallerPorCancelar}
+        descripcion="¿Seguro que quieres cancelar tu inscripción? Podrás volver a inscribirte mientras el taller siga disponible."
+        textoConfirmar="Sí, cancelar inscripción"
+        procesando={cancelando}
+        peligro
+        onConfirmar={confirmarCancelacion}
+        onCerrar={() => setTallerPorCancelar(null)}
+      />
     </div>
   );
 }
